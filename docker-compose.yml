@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      #LOCAL CONFIG. get this value from vault or somewhere in the prod config
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: giggz
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      #LOCAL CONFIG. get this value from vault or somewhere in the prod config
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  db-data:
+  pgadmin-data:
