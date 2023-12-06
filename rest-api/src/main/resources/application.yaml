@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/giggz
+    #LOCAL CONFIG. get these values from vault or somewhere in the prod config
+    password: admin
+    username: admin
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    #possibly to remove in the future
+#    generate-ddl: true
+    show-sql: true
+    #to remove in the future
+#    hibernate:
+#      ddl-auto: none
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ENC(eqCqSBToZDZEahRUeMz1rERwJ9MCoNdisW7ykMKYYFqpGER0OM61q/6uVIAXHczQsqq0NxjZV/uFZoTQjw6fDtFhWkx7aRnq/COhWsGLvkLreglN+SsuPA==)
+            clientSecret: ENC(jLBFCSLAujDKxkFc3fvgGwK/pEgJP5QPc1nD37L1cU6lDm7m1x/9a9Tl3vrwAHYQ)
+springdoc:
+  api-docs:
+    path: /api-docs
