@@ -1,17 +1,12 @@
-package com.devok.restapi.config;//package com.devok.auth;
-
-import java.util.UUID;
+package com.devok.restapi.config.auth;//package com.devok.auth;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.devok.restapi.model.authorization.User;
 import com.devok.restapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Optional;
 
 
 @Service

@@ -1,4 +1,4 @@
-package com.devok.restapi.config;
+package com.devok.restapi.config.auth;
 
 import java.util.Collection;
 import java.util.Map;
