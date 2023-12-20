@@ -1,11 +1,22 @@
-plugins {
-    id 'org.springframework.boot' version '3.2.0' apply false
-    id 'io.spring.dependency-management' version '1.1.4'
-    id 'java'
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.openapitools:openapi-generator-gradle-plugin:${openApiVersion}"
+    }
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id "org.openapi.generator" version "${openApiVersion}"
+
+}
+
+apply plugin: 'org.openapi.generator'
 
 java {
     sourceCompatibility = '17'
@@ -15,26 +26,55 @@ repositories {
     mavenCentral()
 }
 
-dependencyManagement {
-    imports {
-        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-    }
-}
+compileJava.dependsOn tasks.openApiGenerate
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.0'
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
-    runtimeOnly 'org.postgresql:postgresql'
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    implementation project(':giggz-service')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:3.2.0'
-    implementation "org.projectlombok:lombok:${lombokVersion}"
-}
-dependencies {
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+
+openApiGenerate {
+    generatorName.set("spring")
+    inputSpec.set("$projectDir/src/main/resources/openapi.yaml")
+    outputDir.set("$buildDir/openapi")
+    apiPackage.set("com.devok.restapi.api")
+    invokerPackage.set("com.devok.restapi.invoker")
+    validateSpec.set(true)
+    modelPackage.set("com.devok.restapi.model")
+//    generateModelTests.set(false)
+//    generateApiTests.set(false)
+    configOptions = [
+            useSpringBoot3 : "true",
+            openApiNullable: "false",
+            interfaceOnly  : "true",
+            skipDefaultInterface:"true"
+    ]
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir file("${project.buildDir.path}/openapi/src/main/java")
+        }
+    }
+}
+
+compileJava.dependsOn("openApiGenerate")

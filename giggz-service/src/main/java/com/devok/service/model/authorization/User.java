@@ -1,4 +1,4 @@
-package com.devok.restapi.model.authorization;
+package com.devok.service.model.authorization;
 
 
 import java.util.Set;

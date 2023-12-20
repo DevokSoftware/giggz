@@ -1,4 +1,4 @@
-package com.devok.restapi.repository;
+package com.devok.service.repository;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.devok.restapi.model.authorization.User;
+import com.devok.service.model.authorization.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {

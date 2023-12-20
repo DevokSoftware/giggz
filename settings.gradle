@@ -2,3 +2,4 @@ rootProject.name = 'giggz'
 
 include 'giggz-api'
 include 'giggz-application'
+include 'giggz-service'

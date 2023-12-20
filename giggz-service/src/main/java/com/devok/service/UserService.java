@@ -1,4 +1,4 @@
-package com.devok.restapi.service;
+package com.devok.service;
 
 public interface UserService {
     void processOAuthPostLogin(String username);

@@ -1,17 +1,19 @@
-package com.devok.restapi.dto;
+package com.devok.service.model;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Data;
 
-@Getter
-@Setter
-public class EventDTO {
+@Entity
+@Data
+public class Event {
+    @Id
     private long id;
     private String name;
-    private OffsetDateTime date;
+    private OffsetDateTime startDate;
     private String description;
     private String poster;
     private BigDecimal price;

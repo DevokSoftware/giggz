@@ -1,16 +1,17 @@
-package com.devok.restapi.service;
+package com.devok.service.impl;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.devok.restapi.model.authorization.Provider;
-import com.devok.restapi.model.authorization.User;
-import com.devok.restapi.repository.UserRepository;
+import com.devok.service.model.authorization.Provider;
+import com.devok.service.model.authorization.User;
+import com.devok.service.repository.UserRepository;
+import com.devok.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 

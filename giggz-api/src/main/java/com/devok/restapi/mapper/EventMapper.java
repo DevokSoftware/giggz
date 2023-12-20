@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 
-import com.devok.restapi.dto.EventDTO;
-import com.devok.restapi.model.Event;
+import com.devok.restapi.model.CreateEventRequest;
+import com.devok.restapi.model.EventResponse;
+import com.devok.service.dto.EventDTO;
 
 @Mapper(componentModel = "spring")
 public interface EventMapper {
-    EventDTO map(Event event);
-    List<EventDTO> map(List<Event> event);
+    EventDTO toDTO (CreateEventRequest createEventRequest);
+    EventResponse toEventResponse(EventDTO event);
+    List<EventResponse> toEventResponseList(List<EventDTO> event);
 }
