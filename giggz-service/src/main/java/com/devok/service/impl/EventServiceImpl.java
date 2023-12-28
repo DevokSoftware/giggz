@@ -21,6 +21,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public EventDTO getById(long id) {
+        return eventMapper.toDto(eventRepository.getReferenceById(id));
+    }
+
+    @Override
     public List<EventDTO> findAll() {
         return eventMapper.toDtoList(eventRepository.findAll());
     }
@@ -32,8 +37,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDTO update(EventDTO event) {
-        Event updatedEvent = eventRepository.save(eventMapper.toEntity(event));
-        return eventMapper.toDto(updatedEvent);
+    public EventDTO update(long eventId, EventDTO updatedEvent) {
+        EventDTO eventDto = getById(eventId);
+        eventMapper.updateValues(updatedEvent, eventDto);
+        Event updatedEntity = eventRepository.save(eventMapper.toEntity(eventDto));
+        return eventMapper.toDto(updatedEntity);
     }
 }

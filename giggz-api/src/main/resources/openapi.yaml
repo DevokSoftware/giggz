@@ -7,7 +7,7 @@ servers:
 tags:
   - name: Events
 paths:
-  /event:
+  /events:
     post:
       tags:
         - Event
@@ -24,12 +24,94 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventResponse'
+    get:
+      tags:
+        - Event
+      parameters:
+        - in: query
+          name: fields
+          style: deepObject
+          allowReserved: true
+          schema:
+            type: object
+            properties:
+              location:
+                type: string
+              comedian:
+                type: string
+      responses:
+        200:
+          description: Get list of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventResponse'
+  /events/{eventId}:
+    get:
+      tags:
+        - Event
+      parameters:
+        - in: path
+          name: eventId
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        200:
+          description: Get event by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponse'
+    put:
+      tags:
+        - Event
+      parameters:
+        - in: path
+          name: eventId
+          schema:
+            type: integer
+            format: int64
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEventRequest'
+        required: true
+      responses:
+        200:
+          description: Get event by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponse'
 components:
   schemas:
     CreateEventRequest:
       title: CreateEventRequest
       required:
         - name
+      type: object
+      properties:
+        name:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        description:
+          type: string
+        poster:
+          type: string
+        price:
+          type: number
+        url:
+          type: string
+    UpdateEventRequest:
+      title: UpdateEventRequest
       type: object
       properties:
         name:

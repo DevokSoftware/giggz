@@ -1,16 +1,15 @@
-package com.devok.service.model;
+package com.devok.service.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
-@Data
-public class Comedian {
-    @Id
+@Getter
+@Setter
+public class ComedianDTO {
     private long id;
     private String name;
     private String description;
+    private String city;
     private String picture;
     private int priority;
     private String instagram;
