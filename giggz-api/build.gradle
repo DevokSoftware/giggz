@@ -13,7 +13,6 @@ plugins {
     id 'org.springframework.boot' version '3.2.0'
     id 'io.spring.dependency-management' version '1.1.4'
     id "org.openapi.generator" version "${openApiVersion}"
-
 }
 
 apply plugin: 'org.openapi.generator'
@@ -31,13 +30,13 @@ compileJava.dependsOn tasks.openApiGenerate
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     implementation "org.projectlombok:lombok:${lombokVersion}"
     implementation project(':giggz-service')
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:3.2.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:${openapiStarterWebmvcUiVersion}'
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }
@@ -50,11 +49,10 @@ jar {
     enabled = true
 }
 
-
 openApiGenerate {
     generatorName.set("spring")
     inputSpec.set("$projectDir/src/main/resources/openapi.yaml")
-    outputDir.set("$buildDir/openapi")
+    outputDir.set("$buildDir/generated/openapi")
     apiPackage.set("com.devok.restapi.api")
     invokerPackage.set("com.devok.restapi.invoker")
     validateSpec.set(true)
@@ -64,15 +62,15 @@ openApiGenerate {
     configOptions = [
             useSpringBoot3 : "true",
             openApiNullable: "false",
-            interfaceOnly  : "true",
-            skipDefaultInterface:"true"
+            interfaceOnly  : "false",
+            skipDefaultInterface:"false",
     ]
 }
 
 sourceSets {
     main {
         java {
-            srcDir file("${project.buildDir.path}/openapi/src/main/java")
+            srcDir file("${project.buildDir.path}/generated/openapi/src/main/java")
         }
     }
 }

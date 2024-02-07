@@ -1,11 +1,11 @@
-openapi: 3.0.2
+openapi: 3.0.0
 info:
   title: API Documentation
   version: 1.0.0
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:8080/api
 tags:
-  - name: Events
+  - name: Event
 paths:
   /events:
     post:
@@ -27,21 +27,9 @@ paths:
     get:
       tags:
         - Event
-      parameters:
-        - in: query
-          name: fields
-          style: deepObject
-          allowReserved: true
-          schema:
-            type: object
-            properties:
-              location:
-                type: string
-              comedian:
-                type: string
       responses:
         200:
-          description: Get list of events
+          description: All existing events
           content:
             application/json:
               schema:
@@ -53,15 +41,16 @@ paths:
       tags:
         - Event
       parameters:
-        - in: path
-          name: eventId
+        - name: eventId
+          in: path
+          required: true
           schema:
             type: integer
             format: int64
-          required: true
+            minimum: 1
       responses:
-        200:
-          description: Get event by ID
+        201:
+          description: Existing event
           content:
             application/json:
               schema:
@@ -70,12 +59,13 @@ paths:
       tags:
         - Event
       parameters:
-        - in: path
-          name: eventId
+        - name: eventId
+          in: path
+          required: true
           schema:
             type: integer
             format: int64
-          required: true
+            minimum: 1
       requestBody:
         content:
           application/json:
@@ -83,8 +73,8 @@ paths:
               $ref: '#/components/schemas/UpdateEventRequest'
         required: true
       responses:
-        200:
-          description: Get event by ID
+        201:
+          description: Event updated
           content:
             application/json:
               schema:

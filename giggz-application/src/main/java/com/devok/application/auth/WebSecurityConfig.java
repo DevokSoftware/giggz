@@ -1,4 +1,4 @@
-package com.devok.restapi.config.auth;
+package com.devok.application.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -6,24 +6,23 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.devok.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-    @Autowired
-    private OAuth2UserService oAuth2UserService;
-    @Autowired
-    private UserService userService;
+//    @Autowired
+//    private OAuth2UserService oAuth2UserService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
-                ).oauth2Login(Customizer.withDefaults());
-        return http.build();
+//        http
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .anyRequest().authenticated()
+//                ).oauth2Login(Customizer.withDefaults());
+//        return http.build();
 //        http
 //                .authorizeRequests()
 //                .requestMatchers("/", "/login", "/oauth/**").permitAll()
@@ -47,6 +46,7 @@ public class WebSecurityConfig {
 //                        response.sendRedirect("/events");
 //                    }
 //                });
-//        return http.build();
+
+        return http.build();
     }
 }
