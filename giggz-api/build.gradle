@@ -53,17 +53,17 @@ openApiGenerate {
     generatorName.set("spring")
     inputSpec.set("$projectDir/src/main/resources/openapi.yaml")
     outputDir.set("$buildDir/generated/openapi")
-    apiPackage.set("com.devok.restapi.api")
-    invokerPackage.set("com.devok.restapi.invoker")
+    apiPackage.set("com.devok.giggz.openapi.api")
+    invokerPackage.set("com.devok.giggz.openapi.invoker")
     validateSpec.set(true)
-    modelPackage.set("com.devok.restapi.model")
+    modelPackage.set("com.devok.giggz.openapi.model")
 //    generateModelTests.set(false)
 //    generateApiTests.set(false)
     configOptions = [
             useSpringBoot3 : "true",
             openApiNullable: "false",
-            interfaceOnly  : "false",
-            skipDefaultInterface:"false",
+            interfaceOnly  : "true",
+            skipDefaultInterface:"true",
     ]
 }
 
