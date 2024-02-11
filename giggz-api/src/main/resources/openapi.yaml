@@ -7,6 +7,38 @@ servers:
 tags:
   - name: Event
 paths:
+  /comedians:
+    get:
+      tags:
+        - Comedian
+      responses:
+        200:
+          description: All existing comedians
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ComedianResponse'
+  /comedians/{comedianId}:
+    get:
+      tags:
+        - Comedian
+      parameters:
+        - name: comedianId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        201:
+          description: Existing comedian
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComedianResponse'
   /events:
     post:
       tags:
@@ -138,4 +170,27 @@ components:
         price:
           type: number
         url:
+          type: string
+    ComedianResponse:
+      title: ComedianResponse
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        city:
+          type: string
+        picture:
+          type: number
+        instagram:
+          type: string
+        youtube:
+          type: string
+        tiktok:
           type: string

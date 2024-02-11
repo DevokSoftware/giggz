@@ -7,11 +7,8 @@ import org.springframework.stereotype.Service;
 import com.devok.service.ComedianService;
 import com.devok.service.dto.ComedianDTO;
 import com.devok.service.mapper.ComedianMapper;
-import com.devok.service.mapper.EventMapper;
 import com.devok.service.model.Comedian;
-import com.devok.service.model.Event;
 import com.devok.service.repository.ComedianRepository;
-import com.devok.service.repository.EventRepository;
 
 @Service
 public class ComedianServiceImpl implements ComedianService {

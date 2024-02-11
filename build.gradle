@@ -1,0 +1,25 @@
+wrapper {
+	distributionType = Wrapper.DistributionType.ALL
+}
+
+group 'com.devok'
+
+//allprojects {
+//	compileJava {
+//		sourceCompatibility = JavaVersion.VERSION_17
+//		targetCompatibility = JavaVersion.VERSION_17
+//	}
+//}
+
+//subprojects {
+//	jar.enabled = true
+//}
+//
+//
+//springBoot {
+//	mainClass = 'com.devok.application.GiggzApplication'
+//}
+//
+//bootJar {
+//	getArchiveFileName().set('giggz.jar')
+//}
