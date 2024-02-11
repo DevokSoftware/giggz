@@ -2,6 +2,7 @@
 FROM gradle:8.6.0-jdk17-alpine AS build
 WORKDIR /giggz
 COPY . .
+RUN chmod +x ./gradlew
 RUN ./gradlew clean build
 
 # Stage 2: Create final image
