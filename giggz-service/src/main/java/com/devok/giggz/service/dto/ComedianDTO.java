@@ -1,5 +1,7 @@
 package com.devok.giggz.service.dto;
 
+import java.util.Set;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,4 +17,6 @@ public class ComedianDTO {
     private String instagram;
     private String youtube;
     private String tiktok;
+    private Set<EventDTO> events;
+    private Set<ComedianContentDTO> contents;
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 public class EventDTO {
     private long id;
     private String name;
-    private OffsetDateTime startDate;
+    private OffsetDateTime date;
     private String description;
     private String poster;
     private BigDecimal price;

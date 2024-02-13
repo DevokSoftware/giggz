@@ -149,6 +149,27 @@ components:
           type: number
         url:
           type: string
+    ContentResponse:
+      title: ContentResponse
+      required:
+        - id
+        - contentType
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        contentType:
+          $ref: '#/components/schemas/ContentType'
+        url:
+          type: string
+    ContentType:
+      type: string
+      enum:
+        - SPOTIFY
+        - PATREON
+        - YOUTUBE
     EventResponse:
       title: EventResponse
       required:
@@ -160,7 +181,7 @@ components:
           type: string
         name:
           type: string
-        startDate:
+        date:
           type: string
           format: date-time
         description:
@@ -194,3 +215,13 @@ components:
           type: string
         tiktok:
           type: string
+        twitter:
+          type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResponse'
+        contents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentResponse'
