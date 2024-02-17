@@ -192,6 +192,63 @@ components:
           type: number
         url:
           type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        comedians:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventComedianResponse'
+    ComedianEventResponse:
+      title: ComedianEventResponse
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        date:
+          type: string
+          format: date-time
+        description:
+          type: string
+        poster:
+          type: string
+        price:
+          type: number
+        url:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+    Location:
+      title: Location
+      required:
+        - name
+        - city
+      properties:
+        name:
+          type: string
+        city:
+          type: string
+        number:
+          type: string
+        street:
+          type: string
+    EventComedianResponse:
+      title: EventComedianResponse
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        picture:
+          type: string
     ComedianResponse:
       title: ComedianResponse
       required:
@@ -220,7 +277,7 @@ components:
         events:
           type: array
           items:
-            $ref: '#/components/schemas/EventResponse'
+            $ref: '#/components/schemas/ComedianEventResponse'
         contents:
           type: array
           items:
