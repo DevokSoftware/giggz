@@ -149,6 +149,27 @@ components:
           type: number
         url:
           type: string
+    ContentResponse:
+      title: ContentResponse
+      required:
+        - id
+        - contentType
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        contentType:
+          $ref: '#/components/schemas/ContentType'
+        url:
+          type: string
+    ContentType:
+      type: string
+      enum:
+        - SPOTIFY
+        - PATREON
+        - YOUTUBE
     EventResponse:
       title: EventResponse
       required:
@@ -160,7 +181,7 @@ components:
           type: string
         name:
           type: string
-        startDate:
+        date:
           type: string
           format: date-time
         description:
@@ -170,6 +191,63 @@ components:
         price:
           type: number
         url:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        comedians:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventComedianResponse'
+    ComedianEventResponse:
+      title: ComedianEventResponse
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        date:
+          type: string
+          format: date-time
+        description:
+          type: string
+        poster:
+          type: string
+        price:
+          type: number
+        url:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+    Location:
+      title: Location
+      required:
+        - name
+        - city
+      properties:
+        name:
+          type: string
+        city:
+          type: string
+        number:
+          type: string
+        street:
+          type: string
+    EventComedianResponse:
+      title: EventComedianResponse
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        picture:
           type: string
     ComedianResponse:
       title: ComedianResponse
@@ -194,3 +272,13 @@ components:
           type: string
         tiktok:
           type: string
+        twitter:
+          type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComedianEventResponse'
+        contents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentResponse'
