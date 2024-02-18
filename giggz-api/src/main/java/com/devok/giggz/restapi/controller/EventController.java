@@ -2,10 +2,14 @@ package com.devok.giggz.restapi.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.devok.giggz.openapi.model.EventsGetFiltersParameter;
+import com.devok.giggz.openapi.model.PageEventResponse;
 import com.devok.giggz.restapi.mapper.EventApiMapper;
 import com.devok.giggz.openapi.api.EventsApi;
 
@@ -26,9 +30,9 @@ public class EventController implements EventsApi {
     }
 
     @Override
-    public ResponseEntity<List<EventResponse>> eventsGet() {
-        List<EventDTO> events = eventService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(eventApiMapper.toEventResponseList(events));
+    public ResponseEntity<PageEventResponse> eventsGet(Pageable pageable, EventsGetFiltersParameter filters, List<String> sort) {
+        Page<EventDTO> eventsPage = eventService.findAll(pageable, eventApiMapper.toEventsFilter(filters));
+        return ResponseEntity.status(HttpStatus.OK).body(eventApiMapper.toPageEventResponse(eventsPage));
     }
 
     @Override

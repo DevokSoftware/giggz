@@ -17,7 +17,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot:3.0.5'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-
 	implementation project(':giggz-api')
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator:3.2.2'
 }

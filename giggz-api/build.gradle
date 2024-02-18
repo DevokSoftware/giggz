@@ -30,6 +30,7 @@ compileJava.dependsOn tasks.openApiGenerate
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springJpaVersion}"
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     implementation "org.projectlombok:lombok:${lombokVersion}"
     implementation project(':giggz-service')
@@ -64,6 +65,10 @@ openApiGenerate {
             openApiNullable: "false",
             interfaceOnly  : "true",
             skipDefaultInterface:"true",
+    ]
+    importMappings = [
+        Pageable: 'org.springframework.data.domain.Pageable',
+        Page: 'org.springframework.data.domain.Page'
     ]
 }
 
