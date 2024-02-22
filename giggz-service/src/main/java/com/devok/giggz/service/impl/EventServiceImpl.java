@@ -1,12 +1,11 @@
 package com.devok.giggz.service.impl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.devok.giggz.service.dto.EventDTO;
+import com.devok.giggz.service.filters.EventsFilter;
 import com.devok.giggz.service.mapper.EventMapper;
 import com.devok.giggz.service.model.Event;
 import com.devok.giggz.service.repository.EventRepository;
@@ -28,8 +27,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDTO> findAll() {
-        return eventMapper.toDtoList(eventRepository.findAll());
+    public Page<EventDTO> findAll(Pageable pageable, EventsFilter eventsFilter) {
+        return eventRepository.findAllByFilters(
+                eventsFilter.getName(),
+                eventsFilter.getComedianId(),
+                eventsFilter.getCity(),
+                pageable).map(eventMapper::toDto);
     }
 
     @Override

@@ -11,15 +11,38 @@ paths:
     get:
       tags:
         - Comedian
+      parameters:
+        - in: query
+          name: pageable
+          required: false
+          schema:
+            $ref: '#/components/schemas/Pageable'
+        - in: query
+          name: filters
+          required: false
+          allowReserved: true
+          style: form
+          explode: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+        - in: query
+          name: sort
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - name
       responses:
         200:
           description: All existing comedians
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ComedianResponse'
+                $ref: '#/components/schemas/PageComedianResponse'
   /comedians/{comedianId}:
     get:
       tags:
@@ -59,15 +82,44 @@ paths:
     get:
       tags:
         - Event
+      parameters:
+        - in: query
+          name: pageable
+          required: false
+          schema:
+            $ref: '#/components/schemas/Pageable'
+        - in: query
+          name: filters
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              city:
+                type: string
+              comedianId:
+                type: integer
+                format: int64
+        - in: query
+          name: sort
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - name
+                - comedian
+                - city
       responses:
         200:
           description: All existing events
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EventResponse'
+                $ref: '#/components/schemas/PageEventResponse'
   /events/{eventId}:
     get:
       tags:
@@ -170,6 +222,30 @@ components:
         - SPOTIFY
         - PATREON
         - YOUTUBE
+    PageEventResponse:
+      title: PageEventResponse
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResponse'
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+    PageComedianResponse:
+      title: PageComedianResponse
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComedianResponse'
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
     EventResponse:
       title: EventResponse
       required:
@@ -282,3 +358,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContentResponse'
+    Pageable:
+      description: Pageable query parameters
+      type: object
+      properties:
+        page:
+          type: integer
+          default: 0
+        size:
+          type: integer
+          default: 10
+    Page:
+      description: Pageable query parameters
+      type: object
+      properties:
+        total:
+          type: integer
+          default: 0
+        content:
+          type: object

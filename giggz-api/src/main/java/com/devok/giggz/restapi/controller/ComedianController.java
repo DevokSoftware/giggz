@@ -2,10 +2,14 @@ package com.devok.giggz.restapi.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.devok.giggz.openapi.model.ComediansGetFiltersParameter;
+import com.devok.giggz.openapi.model.PageComedianResponse;
 import com.devok.giggz.restapi.mapper.ComedianApiMapper;
 import com.devok.giggz.openapi.api.ComediansApi;
 import com.devok.giggz.openapi.model.ComedianResponse;
@@ -29,8 +33,8 @@ public class ComedianController implements ComediansApi {
     }
 
     @Override
-    public ResponseEntity<List<ComedianResponse>> comediansGet() {
-        List<ComedianDTO> comedians = comedianService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(comedianApiMapper.toComedianResponseList(comedians));
+    public ResponseEntity<PageComedianResponse> comediansGet(Pageable pageable, ComediansGetFiltersParameter filters, List<String> sort) {
+        Page<ComedianDTO> comediansPage  = comedianService.findAll(pageable, comedianApiMapper.toComediansFilter(filters));
+        return ResponseEntity.status(HttpStatus.OK).body(comedianApiMapper.toPageComedianResponse(comediansPage));
     }
 }

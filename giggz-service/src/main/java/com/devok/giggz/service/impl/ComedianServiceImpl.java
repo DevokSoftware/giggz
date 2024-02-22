@@ -1,10 +1,11 @@
 package com.devok.giggz.service.impl;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.devok.giggz.service.dto.ComedianDTO;
+import com.devok.giggz.service.filters.ComediansFilter;
 import com.devok.giggz.service.mapper.ComedianMapper;
 import com.devok.giggz.service.ComedianService;
 import com.devok.giggz.service.model.Comedian;
@@ -21,8 +22,8 @@ public class ComedianServiceImpl implements ComedianService {
     }
 
     @Override
-    public List<ComedianDTO> findAll() {
-        return comedianMapper.toDtoList(comedianRepository.findAll());
+    public Page<ComedianDTO> findAll(Pageable pageable, ComediansFilter comediansFilter) {
+        return comedianRepository.findByFilters(comediansFilter.getName(), pageable).map(comedianMapper::toDto);
     }
 
     @Override
