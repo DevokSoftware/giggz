@@ -28,14 +28,6 @@ paths:
             properties:
               name:
                 type: string
-        - in: query
-          name: sort
-          schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - name
       responses:
         200:
           description: All existing comedians
@@ -103,16 +95,6 @@ paths:
               comedianId:
                 type: integer
                 format: int64
-        - in: query
-          name: sort
-          schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - name
-                - comedian
-                - city
       responses:
         200:
           description: All existing events

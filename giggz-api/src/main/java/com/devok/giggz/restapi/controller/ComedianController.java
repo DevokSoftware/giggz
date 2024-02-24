@@ -1,7 +1,5 @@
 package com.devok.giggz.restapi.controller;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -33,7 +31,7 @@ public class ComedianController implements ComediansApi {
     }
 
     @Override
-    public ResponseEntity<PageComedianResponse> comediansGet(Pageable pageable, ComediansGetFiltersParameter filters, List<String> sort) {
+    public ResponseEntity<PageComedianResponse> comediansGet(Pageable pageable, ComediansGetFiltersParameter filters) {
         Page<ComedianDTO> comediansPage  = comedianService.findAll(pageable, comedianApiMapper.toComediansFilter(filters));
         return ResponseEntity.status(HttpStatus.OK).body(comedianApiMapper.toPageComedianResponse(comediansPage));
     }

@@ -1,7 +1,5 @@
 package com.devok.giggz.restapi.controller;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -30,7 +28,7 @@ public class EventController implements EventsApi {
     }
 
     @Override
-    public ResponseEntity<PageEventResponse> eventsGet(Pageable pageable, EventsGetFiltersParameter filters, List<String> sort) {
+    public ResponseEntity<PageEventResponse> eventsGet(Pageable pageable, EventsGetFiltersParameter filters) {
         Page<EventDTO> eventsPage = eventService.findAll(pageable, eventApiMapper.toEventsFilter(filters));
         return ResponseEntity.status(HttpStatus.OK).body(eventApiMapper.toPageEventResponse(eventsPage));
     }

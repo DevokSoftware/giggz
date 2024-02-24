@@ -1,11 +1,8 @@
 package com.devok.giggz.restapi.mapper;
 
-import java.util.List;
-
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 
-import com.devok.giggz.openapi.model.ComedianEventResponse;
 import com.devok.giggz.openapi.model.CreateEventRequest;
 import com.devok.giggz.openapi.model.EventResponse;
 import com.devok.giggz.openapi.model.EventsGetFiltersParameter;
