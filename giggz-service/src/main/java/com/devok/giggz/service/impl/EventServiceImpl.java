@@ -32,6 +32,8 @@ public class EventServiceImpl implements EventService {
                 eventsFilter.getName(),
                 eventsFilter.getComedianId(),
                 eventsFilter.getCity(),
+                eventsFilter.getDateFrom(),
+                eventsFilter.getDateTo(),
                 pageable).map(eventMapper::toDto);
     }
 
