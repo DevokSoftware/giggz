@@ -30,6 +30,20 @@ public class ComedianContent {
     private String url;
     @ManyToMany(mappedBy = "contents")
     Set<Comedian> comedians;
+
+    public static int contentTypeOrder(ContentType contentType) {
+        switch (contentType) {
+            case SPOTIFY:
+                return 0;
+            case PATREON:
+                return 1;
+            case YOUTUBE:
+                return 2;
+            // Add more cases as needed
+            default:
+                return Integer.MAX_VALUE; // Handle unknown values
+        }
+    }
 }
 
 

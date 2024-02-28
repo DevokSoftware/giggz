@@ -54,6 +54,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ComedianResponse'
+  /comedians/{comedianId}/events:
+    get:
+      tags:
+        - Comedian
+      parameters:
+        - name: comedianId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - in: query
+          name: pageable
+          required: false
+          schema:
+            $ref: '#/components/schemas/Pageable'
+        - in: query
+          name: filters
+          required: false
+          allowReserved: true
+          style: form
+          explode: true
+          schema:
+            type: object
+            properties:
+              dateFrom:
+                type: string
+                format: date-time
+              dateTo:
+                type: string
+                format: date-time
+      responses:
+        200:
+          description: All existing comedian events
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageComedianEventsResponse'
   /events:
     post:
       tags:
@@ -338,14 +377,22 @@ components:
           type: string
         twitter:
           type: string
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/ComedianEventResponse'
         contents:
           type: array
           items:
             $ref: '#/components/schemas/ContentResponse'
+    PageComedianEventsResponse:
+      title: PageComedianEventsResponse
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComedianEventResponse'
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
     Pageable:
       description: Pageable query parameters
       type: object

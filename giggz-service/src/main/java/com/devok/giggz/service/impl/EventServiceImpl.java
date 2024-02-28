@@ -1,5 +1,7 @@
 package com.devok.giggz.service.impl;
 
+import java.time.OffsetDateTime;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,17 @@ public class EventServiceImpl implements EventService {
                 eventsFilter.getCity(),
                 eventsFilter.getDateFrom(),
                 eventsFilter.getDateTo(),
+                pageable).map(eventMapper::toDto);
+    }
+
+    @Override
+    public Page<EventDTO> findAllByComedian(Pageable pageable, Long comedianId, OffsetDateTime dateFrom, OffsetDateTime dateTo) {
+        return eventRepository.findAllByFilters(
+                null,
+                comedianId,
+                null,
+                dateFrom,
+                dateTo,
                 pageable).map(eventMapper::toDto);
     }
 
