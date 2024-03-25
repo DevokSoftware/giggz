@@ -11,13 +11,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EventDTO {
-    private long id;
+    private Long id;
     private String name;
     private OffsetDateTime date;
     private String description;
     private String poster;
     private BigDecimal price;
-    private int priority;
+    private Integer priority;
     private String url;
     private LocationDTO location;
     private Set<Comedian> comedians;

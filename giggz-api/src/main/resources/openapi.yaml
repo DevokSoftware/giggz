@@ -35,6 +35,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageComedianResponse'
+    post:
+      tags:
+        - Comedian
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateComedianRequest'
+        required: true
+      responses:
+        201:
+          description: Comedian created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComedianResponse'
   /comedians/{comedianId}:
     get:
       tags:
@@ -54,6 +70,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ComedianResponse'
+    put:
+      tags:
+        - Comedian
+      parameters:
+        - name: comedianId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateComedianRequest'
+        required: true
+      responses:
+        201:
+          description: Comedian updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComedianResponse'
+    delete:
+      tags:
+        - Comedian
+      parameters:
+        - name: comedianId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Comedian deleted
   /comedians/{comedianId}/events:
     get:
       tags:
@@ -190,6 +244,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventResponse'
+  /login:
+    post:
+      tags:
+        - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtToken'
 components:
   schemas:
     CreateEventRequest:
@@ -226,6 +296,16 @@ components:
           type: string
         price:
           type: number
+        url:
+          type: string
+    ContentInput:
+      title: ContentInput
+      type: object
+      properties:
+        name:
+          type: string
+        contentType:
+          $ref: '#/components/schemas/ContentType'
         url:
           type: string
     ContentResponse:
@@ -352,6 +432,48 @@ components:
           type: string
         picture:
           type: string
+    CreateComedianRequest:
+      title: CreateComedianRequest
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        picture:
+          type: string
+        instagram:
+          type: string
+        youtube:
+          type: string
+        tiktok:
+          type: string
+        twitter:
+          type: string
+        contents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentInput'
+    UpdateComedianRequest:
+      title: UpdateComedianRequest
+      type: object
+      properties:
+        name:
+          type: string
+        picture:
+          type: string
+        instagram:
+          type: string
+        youtube:
+          type: string
+        tiktok:
+          type: string
+        twitter:
+          type: string
+        contents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentInput'
     ComedianResponse:
       title: ComedianResponse
       required:
@@ -412,3 +534,22 @@ components:
           default: 0
         content:
           type: object
+    LoginRequest:
+      title: LoginRequest
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    JwtToken:
+      title: JwtToken
+      type: object
+      required:
+        - accessToken
+      properties:
+        accessToken:
+          type: string

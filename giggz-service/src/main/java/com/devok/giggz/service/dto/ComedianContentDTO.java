@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ComedianContentDTO {
-    private long id;
+    private Long id;
     private ContentType contentType;
     private String url;
     private String name;

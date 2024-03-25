@@ -11,4 +11,5 @@ public interface ComedianService {
     ComedianDTO getById(long id);
     ComedianDTO create(ComedianDTO comedian);
     ComedianDTO update(long id, ComedianDTO comedian);
+    void delete(long id);
 }

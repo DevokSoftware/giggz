@@ -4,12 +4,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devok.giggz.openapi.model.ComediansComedianIdEventsGetFiltersParameter;
 import com.devok.giggz.openapi.model.ComediansGetFiltersParameter;
+import com.devok.giggz.openapi.model.CreateComedianRequest;
 import com.devok.giggz.openapi.model.PageComedianEventsResponse;
 import com.devok.giggz.openapi.model.PageComedianResponse;
+import com.devok.giggz.openapi.model.UpdateComedianRequest;
 import com.devok.giggz.restapi.mapper.ComedianApiMapper;
 import com.devok.giggz.openapi.api.ComediansApi;
 import com.devok.giggz.openapi.model.ComedianResponse;
@@ -46,5 +49,26 @@ public class ComedianController implements ComediansApi {
     public ResponseEntity<PageComedianEventsResponse> comediansComedianIdEventsGet(Long comedianId, Pageable pageable, ComediansComedianIdEventsGetFiltersParameter filters) {
         Page<EventDTO> comedianEventsPage = eventService.findAllByComedian(pageable, comedianId, filters.getDateFrom(), filters.getDateTo());
         return ResponseEntity.status(HttpStatus.OK).body(comedianApiMapper.toPageComedianEventsResponse(comedianEventsPage));
+    }
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ComedianResponse> comediansPost(CreateComedianRequest createComedianRequest) {
+        ComedianDTO comedianDTO = comedianService.create(comedianApiMapper.toDTO(createComedianRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(comedianApiMapper.toComedianResponse(comedianDTO));
+    }
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ComedianResponse> comediansComedianIdPut(Long comedianId, UpdateComedianRequest updateComedianRequest) {
+        ComedianDTO comedianDTO = comedianService.update(comedianId, comedianApiMapper.toDTO(updateComedianRequest));
+        return ResponseEntity.status(HttpStatus.OK).body(comedianApiMapper.toComedianResponse(comedianDTO));
+    }
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> comediansComedianIdDelete(Long comedianId) {
+        comedianService.delete(comedianId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

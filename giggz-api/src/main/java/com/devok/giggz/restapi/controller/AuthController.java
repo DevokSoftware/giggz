@@ -1,19 +1,19 @@
 package com.devok.giggz.restapi.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devok.giggz.restapi.dto.AuthRequestDTO;
-import com.devok.giggz.restapi.dto.JwtResponseDTO;
+import com.devok.giggz.openapi.api.LoginApi;
+import com.devok.giggz.openapi.model.JwtToken;
+import com.devok.giggz.openapi.model.LoginRequest;
 import com.devok.giggz.service.auth.JwtService;
 
 @RestController
-public class AuthController {
+public class AuthController implements LoginApi {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
@@ -22,12 +22,14 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/login")
-    public JwtResponseDTO login(@RequestBody AuthRequestDTO authRequestDTO) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
+    @Override
+    public ResponseEntity<JwtToken> loginPost(LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         if (authentication.isAuthenticated()) {
-            return JwtResponseDTO.builder().accessToken(jwtService.generateToken(authRequestDTO.getUsername())).build();
+            JwtToken jwtToken = new JwtToken();
+            jwtToken.setAccessToken(jwtService.generateToken(loginRequest.getUsername()));
+            return ResponseEntity.ok().body(jwtToken);
         }
-        throw new UsernameNotFoundException("Invalid user request..!!");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

@@ -3,6 +3,7 @@ package com.devok.giggz.service.mapper;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import com.devok.giggz.service.dto.ComedianDTO;
@@ -16,5 +17,6 @@ public interface ComedianMapper {
 
     Comedian toEntity(ComedianDTO comedian);
 
+    @Mapping(target = "id", ignore = true)
     void updateValues(ComedianDTO updatedComedian, @MappingTarget ComedianDTO comedianDto);
 }

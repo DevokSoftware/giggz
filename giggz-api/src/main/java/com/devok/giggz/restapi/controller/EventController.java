@@ -48,6 +48,7 @@ public class EventController implements EventsApi {
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<EventResponse> eventsEventIdPut(Long eventId, UpdateEventRequest updateEventRequest) {
         EventDTO updatedEvent = eventService.update(eventId, eventApiMapper.toDTO(updateEventRequest));
         return ResponseEntity.status(HttpStatus.OK).body(eventApiMapper.toEventResponse(updatedEvent));
