@@ -1,6 +1,5 @@
 package com.devok.giggz.service.repository;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 import org.springframework.data.domain.Page;

@@ -18,4 +18,6 @@ public interface EventService {
     EventDTO create(EventDTO event);
 
     EventDTO update(long id, EventDTO event);
+
+    void delete(long id);
 }

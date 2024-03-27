@@ -52,6 +52,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventDTO create(EventDTO event) {
+        //TODO Fix this in DB
+        event.setPriority(1);
         Event createdEvent = eventRepository.save(eventMapper.toEntity(event));
         return eventMapper.toDto(createdEvent);
     }
@@ -62,5 +64,10 @@ public class EventServiceImpl implements EventService {
         eventMapper.updateValues(updatedEvent, eventDto);
         Event updatedEntity = eventRepository.save(eventMapper.toEntity(eventDto));
         return eventMapper.toDto(updatedEntity);
+    }
+
+    @Override
+    public void delete(long id) {
+        eventRepository.delete(eventRepository.getReferenceById(id));
     }
 }

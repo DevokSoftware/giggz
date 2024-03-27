@@ -244,6 +244,117 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventResponse'
+    delete:
+      tags:
+        - Event
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Event deleted
+  /locations:
+    post:
+      tags:
+        - Location
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationInput'
+        required: true
+      responses:
+        201:
+          description: New location created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+    get:
+      tags:
+        - Location
+      parameters:
+        - in: query
+          name: filters
+          required: false
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              city:
+                type: string
+      responses:
+        200:
+          description: All existing locations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+  /locations/{locationId}:
+    get:
+      tags:
+        - Location
+      parameters:
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        201:
+          description: Existing location
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+    put:
+      tags:
+        - Location
+      parameters:
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationInput'
+        required: true
+      responses:
+        201:
+          description: Location updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+    delete:
+      tags:
+        - Location
+      parameters:
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Location deleted
   /login:
     post:
       tags:
@@ -281,6 +392,12 @@ components:
           type: number
         url:
           type: string
+        locationId:
+          type: string
+        comedianIds:
+          type: array
+          items:
+            type: string
     UpdateEventRequest:
       title: UpdateEventRequest
       type: object
@@ -298,6 +415,12 @@ components:
           type: number
         url:
           type: string
+        locationId:
+          type: string
+        comedianIds:
+          type: array
+          items:
+            type: string
     ContentInput:
       title: ContentInput
       type: object
@@ -406,6 +529,22 @@ components:
         location:
           $ref: '#/components/schemas/Location'
     Location:
+      title: Location
+      required:
+        - name
+        - city
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        city:
+          type: string
+        number:
+          type: string
+        street:
+          type: string
+    LocationInput:
       title: Location
       required:
         - name

@@ -41,8 +41,8 @@ public class ComedianServiceImpl implements ComedianService {
     public ComedianDTO update(long id, ComedianDTO updateComedian) {
         ComedianDTO comedian = getById(id);
         comedianMapper.updateValues(updateComedian, comedian);
-        Comedian createdComedian = comedianRepository.save(comedianMapper.toEntity(comedian));
-        return comedianMapper.toDto(createdComedian);
+        Comedian updatedComedian = comedianRepository.save(comedianMapper.toEntity(comedian));
+        return comedianMapper.toDto(updatedComedian);
     }
 
     @Override
