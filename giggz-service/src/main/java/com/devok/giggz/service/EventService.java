@@ -5,7 +5,9 @@ import java.time.OffsetDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.devok.giggz.service.dto.EventDTO;
+import com.devok.giggz.service.dto.event.CreateEventDTO;
+import com.devok.giggz.service.dto.event.EventDTO;
+import com.devok.giggz.service.dto.event.UpdateEventDTO;
 import com.devok.giggz.service.filters.EventsFilter;
 
 public interface EventService {
@@ -15,9 +17,9 @@ public interface EventService {
 
     EventDTO getById(long id);
 
-    EventDTO create(EventDTO event);
+    EventDTO create(CreateEventDTO event);
 
-    EventDTO update(long id, EventDTO event);
+    EventDTO update(long id, UpdateEventDTO event);
 
     void delete(long id);
 }

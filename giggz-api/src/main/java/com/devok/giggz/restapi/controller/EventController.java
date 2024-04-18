@@ -15,7 +15,7 @@ import com.devok.giggz.openapi.api.EventsApi;
 import com.devok.giggz.openapi.model.CreateEventRequest;
 import com.devok.giggz.openapi.model.EventResponse;
 import com.devok.giggz.openapi.model.UpdateEventRequest;
-import com.devok.giggz.service.dto.EventDTO;
+import com.devok.giggz.service.dto.event.EventDTO;
 import com.devok.giggz.service.EventService;
 
 @RestController

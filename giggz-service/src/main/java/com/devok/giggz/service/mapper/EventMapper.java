@@ -3,9 +3,12 @@ package com.devok.giggz.service.mapper;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import com.devok.giggz.service.dto.EventDTO;
+import com.devok.giggz.service.dto.event.CreateEventDTO;
+import com.devok.giggz.service.dto.event.EventDTO;
+import com.devok.giggz.service.dto.event.UpdateEventDTO;
 import com.devok.giggz.service.model.Event;
 
 @Mapper(componentModel = "spring")
@@ -16,5 +19,8 @@ public interface EventMapper {
 
     Event toEntity(EventDTO event);
 
-    void updateValues(EventDTO updatedEvent, @MappingTarget EventDTO eventDto);
+    EventDTO toEntity(CreateEventDTO event);
+
+    @Mapping(target = "id", ignore = true)
+    void updateValues(UpdateEventDTO updatedEvent, @MappingTarget EventDTO eventDto);
 }

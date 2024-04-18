@@ -12,7 +12,7 @@ import com.devok.giggz.openapi.model.PageComedianEventsResponse;
 import com.devok.giggz.openapi.model.PageComedianResponse;
 import com.devok.giggz.openapi.model.UpdateComedianRequest;
 import com.devok.giggz.service.dto.ComedianDTO;
-import com.devok.giggz.service.dto.EventDTO;
+import com.devok.giggz.service.dto.event.EventDTO;
 import com.devok.giggz.service.filters.ComediansFilter;
 
 @Mapper(componentModel = "spring")

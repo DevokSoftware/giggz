@@ -32,6 +32,11 @@ public class ComedianServiceImpl implements ComedianService {
     }
 
     @Override
+    public Comedian getEntity(long id) {
+        return comedianRepository.getReferenceById(id);
+    }
+
+    @Override
     public ComedianDTO create(ComedianDTO comedian) {
         Comedian createdComedian = comedianRepository.save(comedianMapper.toEntity(comedian));
         return comedianMapper.toDto(createdComedian);

@@ -381,7 +381,7 @@ components:
       properties:
         name:
           type: string
-        startDate:
+        date:
           type: string
           format: date-time
         description:
@@ -404,7 +404,7 @@ components:
       properties:
         name:
           type: string
-        startDate:
+        date:
           type: string
           format: date-time
         description:

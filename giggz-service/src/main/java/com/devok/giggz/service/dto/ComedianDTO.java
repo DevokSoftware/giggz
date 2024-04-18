@@ -17,6 +17,5 @@ public class ComedianDTO {
     private String youtube;
     private String tiktok;
     private String twitter;
-    private Set<EventDTO> events;
     private Set<ComedianContentDTO> contents;
 }

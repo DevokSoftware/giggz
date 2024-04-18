@@ -19,7 +19,7 @@ import com.devok.giggz.openapi.model.ComedianResponse;
 import com.devok.giggz.service.ComedianService;
 import com.devok.giggz.service.EventService;
 import com.devok.giggz.service.dto.ComedianDTO;
-import com.devok.giggz.service.dto.EventDTO;
+import com.devok.giggz.service.dto.event.EventDTO;
 
 @RestController
 public class ComedianController implements ComediansApi {
