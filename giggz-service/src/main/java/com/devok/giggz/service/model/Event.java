@@ -40,6 +40,9 @@ public class Event {
     private Location location;
     @ManyToMany(mappedBy = "events", fetch = FetchType.LAZY)
     Set<Comedian> comedians;
+    @ManyToOne
+    @JoinColumn(name = "standup_id")
+    private Standup standup;
 
     public void addComedian(Comedian comedian) {
         if (comedians == null) {

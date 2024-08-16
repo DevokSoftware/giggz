@@ -13,4 +13,5 @@ public class EventsFilter {
     private String city;
     private OffsetDateTime dateFrom;
     private OffsetDateTime dateTo;
+    private Long standupId;
 }

@@ -1,8 +1,6 @@
 package com.devok.giggz.service.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -40,7 +38,7 @@ public class Comedian {
     @JoinTable(name = "comedians_contents", joinColumns = @JoinColumn(name = "comedian_id"), inverseJoinColumns = @JoinColumn(name = "content_id") )
     @OrderBy("contentType")
     private Set<ComedianContent> contents;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name = "comedians_events", joinColumns = @JoinColumn(name = "comedian_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events;
 

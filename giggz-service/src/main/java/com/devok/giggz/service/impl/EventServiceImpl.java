@@ -47,6 +47,7 @@ public class EventServiceImpl implements EventService {
                 eventsFilter.getCity(),
                 eventsFilter.getDateFrom(),
                 eventsFilter.getDateTo(),
+                eventsFilter.getStandupId(),
                 pageable).map(eventMapper::toDto);
     }
 
@@ -58,6 +59,7 @@ public class EventServiceImpl implements EventService {
                 null,
                 dateFrom,
                 dateTo,
+                null,
                 pageable).map(eventMapper::toDto);
     }
 

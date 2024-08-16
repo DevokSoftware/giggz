@@ -17,6 +17,6 @@ public interface ComedianMapper {
 
     Comedian toEntity(ComedianDTO comedian);
 
-    @Mapping(target = "id", ignore = true)
-    void updateValues(ComedianDTO updatedComedian, @MappingTarget ComedianDTO comedianDto);
+    @Mapping(target = "events", ignore = true) // Ignore the events field
+    void updateComedianFromDto(ComedianDTO dto, @MappingTarget Comedian entity);
 }

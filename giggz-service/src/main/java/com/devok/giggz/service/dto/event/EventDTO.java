@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.devok.giggz.service.dto.ComedianDTO;
 import com.devok.giggz.service.dto.LocationDTO;
+import com.devok.giggz.service.dto.StandupDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +23,5 @@ public class EventDTO {
     private String url;
     private LocationDTO location;
     private Set<ComedianDTO> comedians;
+    private StandupDTO standup;
 }

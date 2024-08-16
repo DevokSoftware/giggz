@@ -16,16 +16,19 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query(value = "SELECT DISTINCT e FROM Event e " +
             "LEFT JOIN e.comedians c " +
             "LEFT JOIN e.location l " +
+            "LEFT JOIN e.standup s " +
             "WHERE (:eventName IS NULL or :eventName = '' OR (LOWER(e.name) LIKE LOWER(CONCAT('%', :eventName, '%')))) " +
             "AND (:comedianId IS NULL OR c.id = :comedianId) " +
             "AND (:locationCity IS NULL OR l.city = :locationCity)" +
             "AND (cast(:dateFrom as timestamp) IS NULL OR e.date >= :dateFrom)" +
-            "AND (cast(:dateTo as timestamp) IS NULL OR e.date <= :dateTo)")
+            "AND (cast(:dateTo as timestamp) IS NULL OR e.date <= :dateTo)" +
+            "AND (:standupId IS NULL OR s.id = :standupId) ")
     Page<Event> findAllByFilters(
             @Param("eventName") String eventName,
             @Param("comedianId") Long comedianId,
             @Param("locationCity") String locationCity,
             @Param("dateFrom") OffsetDateTime dateFrom,
             @Param("dateTo") OffsetDateTime dateTo,
+            @Param("standupId") Long standupId,
             Pageable pageable);
 }

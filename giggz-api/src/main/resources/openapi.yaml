@@ -194,6 +194,9 @@ paths:
               dateTo:
                 type: string
                 format: date-time
+              standupId:
+                type: integer
+                format: int64
       responses:
         200:
           description: All existing events
@@ -355,6 +358,101 @@ paths:
       responses:
         200:
           description: Location deleted
+  /standups:
+    post:
+      tags:
+        - Standup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StandupInput'
+        required: true
+      responses:
+        201:
+          description: New stand-up created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Standup'
+    get:
+      tags:
+        - Standup
+      parameters:
+        - in: query
+          name: filters
+          required: false
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+      responses:
+        200:
+          description: All existing stand-ups
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Standup'
+  /standups/{standupId}:
+    get:
+      tags:
+        - Standup
+      parameters:
+        - name: standupId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Existing stand-up
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Standup'
+    put:
+      tags:
+        - Standup
+      parameters:
+        - name: standupId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StandupInput'
+        required: true
+      responses:
+        201:
+          description: Stand-up updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Standup'
+    delete:
+      tags:
+        - Standup
+      parameters:
+        - name: standupId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Stand-up deleted
   /login:
     post:
       tags:
@@ -504,6 +602,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EventComedianResponse'
+        standup:
+          $ref: '#/components/schemas/Standup'
     ComedianEventResponse:
       title: ComedianEventResponse
       required:
@@ -528,6 +628,8 @@ components:
           type: string
         location:
           $ref: '#/components/schemas/Location'
+        standup:
+          $ref: '#/components/schemas/Standup'
     Location:
       title: Location
       required:
@@ -643,6 +745,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContentResponse'
+    Standup:
+      title: Standup
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        poster:
+          type: string
+    StandupInput:
+      title: StandupInput
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        picture:
+          type: string
     PageComedianEventsResponse:
       title: PageComedianEventsResponse
       type: object

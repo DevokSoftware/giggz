@@ -10,12 +10,11 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    #possibly to remove in the future
-#    generate-ddl: true
-    show-sql: true
+        #possibly to remove in the future
+        show-sql: false
     #to remove in the future
 #    hibernate:
-#      ddl-auto: none
+#      ddl-auto: update
 #  security:
 #    oauth2:
 #      client:
