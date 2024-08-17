@@ -19,5 +19,6 @@ public class UpdateEventDTO {
     private Integer priority;
     private String url;
     private Long locationId;
+    private Long standupId;
     private Set<Long> comedianIds;
 }

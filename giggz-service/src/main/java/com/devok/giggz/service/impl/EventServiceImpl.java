@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.devok.giggz.service.ComedianService;
 import com.devok.giggz.service.LocationService;
+import com.devok.giggz.service.StandupService;
 import com.devok.giggz.service.dto.LocationDTO;
+import com.devok.giggz.service.dto.StandupDTO;
 import com.devok.giggz.service.dto.event.CreateEventDTO;
 import com.devok.giggz.service.dto.event.EventDTO;
 import com.devok.giggz.service.dto.event.UpdateEventDTO;
@@ -26,12 +28,15 @@ public class EventServiceImpl implements EventService {
     private final EventMapper eventMapper;
     private final LocationService locationService;
     private final ComedianService comedianService;
+    private final StandupService standupService;
 
-    public EventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, LocationService locationService, ComedianService comedianService) {
+    public EventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, LocationService locationService,
+                            ComedianService comedianService, StandupService standupService) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
         this.locationService = locationService;
         this.comedianService = comedianService;
+        this.standupService = standupService;
     }
 
     @Override
@@ -67,9 +72,10 @@ public class EventServiceImpl implements EventService {
     public EventDTO create(CreateEventDTO createEvent) {
         EventDTO eventDto = eventMapper.toEntity(createEvent);
         eventDto.setPriority(1); //TODO Fix this in DB
-        updateLocation(createEvent.getLocationId(), eventDto);
+        setLocation(createEvent.getLocationId(), eventDto);
+        setStandup(createEvent.getStandupId(), eventDto);
         Event createdEvent = eventMapper.toEntity(eventDto);
-        updateComedians(createEvent.getComedianIds(), createdEvent);
+        setComedians(createEvent.getComedianIds(), createdEvent);
         eventRepository.save(createdEvent);
         return eventMapper.toDto(createdEvent);
     }
@@ -78,10 +84,11 @@ public class EventServiceImpl implements EventService {
     public EventDTO update(long eventId, UpdateEventDTO updatedEvent) {
         EventDTO eventDto = getById(eventId);
         eventMapper.updateValues(updatedEvent, eventDto);
-        updateLocation(updatedEvent.getLocationId(), eventDto);
+        setLocation(updatedEvent.getLocationId(), eventDto);
+        setStandup(updatedEvent.getStandupId(), eventDto);
         Event updatedEntity = eventMapper.toEntity(eventDto);
         updatedEntity.setPriority(1); //TODO Fix this in DB
-        updateComedians(updatedEvent.getComedianIds(), updatedEntity);
+        setComedians(updatedEvent.getComedianIds(), updatedEntity);
         eventRepository.save(updatedEntity);
         return eventMapper.toDto(updatedEntity);
     }
@@ -93,14 +100,21 @@ public class EventServiceImpl implements EventService {
         eventRepository.delete(event);
     }
 
-    private void updateLocation(Long locationId, EventDTO eventDto) {
+    private void setLocation(Long locationId, EventDTO eventDto) {
         if (locationId != null) {
             LocationDTO locationDTO = locationService.getById(locationId);
             eventDto.setLocation(locationDTO);
         }
     }
 
-    private void updateComedians(Set<Long> comedianIds, Event event) {
+    private void setStandup(Long standupId, EventDTO eventDto) {
+        if (standupId != null) {
+            StandupDTO standupDTO = standupService.getById(standupId);
+            eventDto.setStandup(standupDTO);
+        }
+    }
+
+    private void setComedians(Set<Long> comedianIds, Event event) {
         if (comedianIds != null) {
             for (Long comedianId : comedianIds) {
                 Comedian comedian = comedianService.getEntity(comedianId);

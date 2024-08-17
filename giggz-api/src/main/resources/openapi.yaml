@@ -378,15 +378,6 @@ paths:
     get:
       tags:
         - Standup
-      parameters:
-        - in: query
-          name: filters
-          required: false
-          schema:
-            type: object
-            properties:
-              name:
-                type: string
       responses:
         200:
           description: All existing stand-ups
@@ -492,6 +483,8 @@ components:
           type: string
         locationId:
           type: string
+        standupId:
+          type: string
         comedianIds:
           type: array
           items:
@@ -514,6 +507,8 @@ components:
         url:
           type: string
         locationId:
+          type: string
+        standupId:
           type: string
         comedianIds:
           type: array
@@ -756,6 +751,8 @@ components:
           type: string
         name:
           type: string
+        description:
+          type: string
         poster:
           type: string
     StandupInput:
@@ -766,7 +763,9 @@ components:
           type: string
         name:
           type: string
-        picture:
+        description:
+          type: string
+        poster:
           type: string
     PageComedianEventsResponse:
       title: PageComedianEventsResponse
