@@ -10,6 +10,7 @@ import java.util.Set;
 import org.hibernate.Hibernate;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +32,7 @@ public class Event {
     private String name;
     private OffsetDateTime date;
     private String description;
+    @Column(columnDefinition="TEXT")
     private String poster;
     private BigDecimal price;
     private Integer priority;
