@@ -444,7 +444,7 @@ paths:
       responses:
         200:
           description: Stand-up deleted
-  /login:
+  /auth/login:
     post:
       tags:
         - Authentication
@@ -460,6 +460,162 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JwtToken'
+  /auth/signup:
+    post:
+      tags:
+        - Authentication
+      summary: "Register a new user"
+      description: "Create a new user account with email and password."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignupRequest"
+      responses:
+        '200':
+          description: "User registered successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User registered successfully!"
+        '400':
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Email is already in use."
+        '500':
+          description: "Server error"
+  /auth/validateToken:
+    get:
+      summary: Validate JWT token
+      description: Validates the provided JWT token to check if it's valid and not expired.
+      operationId: validateToken
+      tags:
+        - Authentication
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token to be validated.
+          schema:
+            type: string
+            example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        200:
+          description: Token is valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Token is valid"
+        401:
+          description: Invalid or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid token"
+  /auth/refresh:
+    post:
+      summary: Refresh Access Token
+      description: Refresh the access token using a valid refresh token.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtToken'
+        '401':
+          description: Invalid or expired refresh token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /users/{userId}/profile:
+    get:
+      summary: Get User Profile
+      description: Retrieve the authenticated user's profile information.
+      tags:
+        - User
+      security:
+        - bearerAuth: [ ] # Requires bearer token for authentication
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Successfully retrieved user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized (invalid or missing token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /users/{userId}/events/attended:
+    get:
+      summary: Get Events attended by the user
+      description: Retrieve all the Events attended by the user
+      tags:
+        - User
+      security:
+        - bearerAuth: [ ] # Requires bearer token for authentication
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Successfully retrieved standups attended by the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventResponse'
+        '401':
+          description: Unauthorized (invalid or missing token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     CreateEventRequest:
@@ -802,10 +958,10 @@ components:
       title: LoginRequest
       type: object
       required:
-        - username
+        - email
         - password
       properties:
-        username:
+        email:
           type: string
         password:
           type: string
@@ -814,6 +970,65 @@ components:
       type: object
       required:
         - accessToken
+        - refreshToken
       properties:
         accessToken:
           type: string
+          description: The newly generated access token.
+        refreshToken:
+          type: string
+          description: The refresh token (in case it was rotated).
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+          description: The refresh token used to request a new access token.
+      required:
+        - refreshToken
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error that occurred.
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the user.
+        email:
+          type: string
+          description: The email of the user.
+        name:
+          type: string
+          description: The name of the user.
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp when the user account was created.
+      required:
+        - id
+        - email
+        - name
+        - createdAt
+    SignupRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        password:
+          type: string
+          format: password
+          example: "password123"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

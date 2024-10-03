@@ -1,7 +1,9 @@
 package com.devok.giggz.service.impl;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,6 +68,11 @@ public class EventServiceImpl implements EventService {
                 dateTo,
                 null,
                 pageable).map(eventMapper::toDto);
+    }
+
+    @Override
+    public List<EventDTO> findAllByUser(long userId) {
+        return eventRepository.findEventsByUserId(userId).stream().map(eventMapper::toDto).collect(Collectors.toList());
     }
 
     @Override

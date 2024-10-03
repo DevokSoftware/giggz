@@ -1,6 +1,7 @@
 package com.devok.giggz.service.repository;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,4 +32,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             @Param("dateTo") OffsetDateTime dateTo,
             @Param("standupId") Long standupId,
             Pageable pageable);
+
+    @Query("SELECT e FROM Event e " +
+            "JOIN e.users u " +
+            "WHERE u.id = :userId")
+    List<Event> findEventsByUserId(@Param("userId") long userId);
 }

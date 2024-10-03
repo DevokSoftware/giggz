@@ -31,6 +31,8 @@ public class StandupServiceImpl implements StandupService {
         return standupMapper.toDtoList(standupRepository.findAll());
     }
 
+
+
     @Override
     public StandupDTO create(StandupDTO standupDTO) {
         Standup standup = standupRepository.save(standupMapper.toEntity(standupDTO));

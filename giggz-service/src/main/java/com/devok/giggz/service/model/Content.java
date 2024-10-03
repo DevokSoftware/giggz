@@ -18,8 +18,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "comedian_content")
-public class ComedianContent {
+@Table(name = "CONTENT")
+public class Content {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

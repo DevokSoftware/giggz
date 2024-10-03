@@ -6,6 +6,7 @@ spring:
     url: jdbc:postgresql://${GIGGZ_DATABASE_URL}
     password: ${GIGGZ_DATABASE_PASSWORD}
     username: ${GIGGZ_DATABASE_USERNAME}
+
   jpa:
     properties:
       hibernate:
@@ -13,12 +14,15 @@ spring:
         #possibly to remove in the future
         show-sql: false
     #to remove in the future
-#    hibernate:
-#     ddl-auto: update
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          google:
-#            clientId: ENC(L4LsD/n9utILxUCzQ9nmUiG7O9WFLUpDUrpovKm12vk0aawX6P0K0kqTMhhwh0LsfJJdLU/L92H9pCn+sSeGLs3D0lUiZz9qeFdu1S6XyhnCnsF8tti6xw==)
-#            clientSecret: ENC(jLBFCSLAujDKxkFc3fvgGwK/pEgJP5QPc1nD37L1cU6lDm7m1x/9a9Tl3vrwAHYQ)
+    hibernate:
+     ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ENC(L4LsD/n9utILxUCzQ9nmUiG7O9WFLUpDUrpovKm12vk0aawX6P0K0kqTMhhwh0LsfJJdLU/L92H9pCn+sSeGLs3D0lUiZz9qeFdu1S6XyhnCnsF8tti6xw==)
+            clientSecret: ENC(jLBFCSLAujDKxkFc3fvgGwK/pEgJP5QPc1nD37L1cU6lDm7m1x/9a9Tl3vrwAHYQ)
+logging:
+  level:
+    org.springframework.security: DEBUG

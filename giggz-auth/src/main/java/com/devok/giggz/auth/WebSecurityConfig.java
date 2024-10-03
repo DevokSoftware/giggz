@@ -18,12 +18,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.devok.giggz.service.auth.JwtAuthFilter;
+import com.devok.giggz.auth.jwt.TokenAuthenticationFilter;
 import com.devok.giggz.service.impl.UserServiceImpl;
 
 @Configuration
@@ -34,65 +33,10 @@ public class WebSecurityConfig {
     private UserServiceImpl userService;
 
     @Autowired
-    JwtAuthFilter jwtAuthFilter;
+    TokenAuthenticationFilter tokenAuthenticationFilter;
 
-
-    //    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-////        http
-////                .authorizeHttpRequests(authorize -> authorize
-////                        .anyRequest().authenticated()
-////                ).oauth2Login(Customizer.withDefaults());
-////        return http.build();
-////        http
-////                .authorizeRequests()
-////                .requestMatchers("/", "/login", "/oauth/**").permitAll()
-////                .anyRequest().authenticated()
-////                .and()
-////                .formLogin()
-////                .loginPage("/login")
-////                .permitAll()
-////                .and()
-////                .oauth2Login()
-////                .loginPage("/login")
-////                .userInfoEndpoint()
-////                .userService(oAuth2UserService)
-////                .and()
-////                .successHandler(new AuthenticationSuccessHandler() {
-////                    @Override
-////                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-////                                                        Authentication authentication) throws IOException {
-////                        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-////                        userService.processOAuthPostLogin(oauthUser.getEmail());
-////                        response.sendRedirect("/events");
-////                    }
-////                });
-//
-//
-//        //before jwt
-////        return http.cors(Customizer.withDefaults())
-////                .csrf(AbstractHttpConfigurer::disable)
-////                .authorizeHttpRequests(auth -> {
-////                    try {
-////                        auth.requestMatchers("/**")
-////                                .permitAll()
-////                                .anyRequest().authenticated()
-////                                .and().httpBasic().and()
-////                                .addFilter(new JwtAuthenticationFilter(authenticationManager, jwtTokenProvider))
-////                                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Disable sessions
-////                        ;
-////                    } catch (Exception e) {
-////                        throw new RuntimeException(e);
-////                    }
-////                })
-////                .build();
-//    }
-
-
-//    @Bean
-//    protected AuthenticationManager configure(AuthenticationManagerBuilder auth) throws Exception {
-//        return auth.userDetailsService(userService).passwordEncoder(passwordEncoder()).and().build();
-//    }
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     //TODO check if this approach opens a security breach
     @Bean
@@ -115,41 +59,25 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    try {
-                        auth.requestMatchers("/**")
-                                .permitAll()
-                                .anyRequest().authenticated()
-                                .and().httpBasic()
-                                .and()
-                                .sessionManagement()
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                                .and()
-                                .authenticationProvider(authenticationProvider())
-                                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                        ;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                    auth
+                            .requestMatchers("/api/profile/**").authenticated() //endpoints started by /profile should be authenticated
+                            .requestMatchers("/**").permitAll(); //other endpoints dont require auth
                 })
+                .oauth2Login(oauth2 -> oauth2
+                                .successHandler(customAuthenticationSuccessHandler) // Use custom success handler
+                        //.failureHandler(customAuthenticationFailureHandler) // Use custom failure handler
+                        //.loginPage("http://localhost:3000/login") // Optional custom login page
+                        //.defaultSuccessUrl("http://localhost:3000/homepage", true) // Remove defaultSuccessUrl
+                        //.failureUrl("http://localhost:3000/test"))  // Redirect to /login-failure on failure
+                )
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // Enable sessions for OAuth2
                 .build();
-//        return http.csrf().disable()
-//                .authorizeHttpRequests()
-//                .requestMatchers( "/api/login", "/api/v1/refreshToken").permitAll()
-//                .and()
-//                .authorizeHttpRequests().requestMatchers("/**")
-//                .authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authenticationProvider(authenticationProvider())
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
     @Bean

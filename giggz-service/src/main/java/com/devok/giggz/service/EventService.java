@@ -1,6 +1,7 @@
 package com.devok.giggz.service;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,9 @@ public interface EventService {
     Page<EventDTO> findAll(Pageable pageable, EventsFilter eventsFilter);
 
     Page<EventDTO> findAllByComedian(Pageable pageable, Long comedianId, OffsetDateTime dateFrom, OffsetDateTime dateTo);
+
+    //TODO implement pageable
+    List<EventDTO> findAllByUser(long userId);
 
     EventDTO getById(long id);
 

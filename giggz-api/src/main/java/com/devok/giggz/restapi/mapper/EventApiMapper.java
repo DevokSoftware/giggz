@@ -1,5 +1,7 @@
 package com.devok.giggz.restapi.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 
@@ -18,6 +20,7 @@ public interface EventApiMapper {
     CreateEventDTO toDTO (CreateEventRequest createEventRequest);
     UpdateEventDTO toDTO (UpdateEventRequest createEventRequest);
     EventResponse toEventResponse(EventDTO event);
+    List<EventResponse> toEventsResponse(List<EventDTO> event);
     EventsFilter toEventsFilter(EventsGetFiltersParameter eventsGetFiltersParameter);
     PageEventResponse toPageEventResponse(Page<EventDTO> eventsPage);
 }

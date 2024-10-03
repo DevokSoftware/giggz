@@ -37,11 +37,11 @@ public class Comedian {
     private String tiktok;
     private String twitter;
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-    @JoinTable(name = "comedians_contents", joinColumns = @JoinColumn(name = "comedian_id"), inverseJoinColumns = @JoinColumn(name = "content_id") )
+    @JoinTable(name = "COMEDIAN_CONTENT", joinColumns = @JoinColumn(name = "comedian_id"), inverseJoinColumns = @JoinColumn(name = "content_id") )
     @OrderBy("contentType")
-    private Set<ComedianContent> contents;
+    private Set<Content> contents;
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinTable(name = "comedians_events", joinColumns = @JoinColumn(name = "comedian_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
+    @JoinTable(name = "COMEDIAN_EVENT", joinColumns = @JoinColumn(name = "comedian_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events;
 
     public void addEvent(Event event) {

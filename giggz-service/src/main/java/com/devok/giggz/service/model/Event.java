@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.hibernate.Hibernate;
 
+import com.devok.giggz.service.model.authorization.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +46,8 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "standup_id")
     private Standup standup;
+    @ManyToMany(mappedBy = "events")
+    Set<User> users;
 
     public void addComedian(Comedian comedian) {
         if (comedians == null) {

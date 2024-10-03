@@ -34,9 +34,10 @@ dependencies {
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     implementation "org.projectlombok:lombok:${lombokVersion}"
     implementation project(':giggz-service')
+    implementation project(':giggz-auth')
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:3.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:3.3.3'
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${openapiStarterWebmvcUiVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
