@@ -2,6 +2,7 @@ package com.devok.giggz.auth;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class CustomAuthenticationSuccessHandler extends  SimpleUrlAuthenticationSuccessHandler {
     private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);
 
-    private TokenProvider tokenProvider;
+    @Value("${oauth2.redirect-uri}")
+    private String targetUrl;
+
+    private final TokenProvider tokenProvider;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     public CustomAuthenticationSuccessHandler(TokenProvider tokenProvider,
@@ -55,10 +59,6 @@ public class CustomAuthenticationSuccessHandler extends  SimpleUrlAuthentication
         if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
             throw new BadRequestException("Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
         }
-
-        // String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
-        //TODO remove this
-        String targetUrl = "http://localhost:3000/oauth2/redirect";
 
         String accessToken = tokenProvider.generateAccessToken(authentication.getName());
         String refreshToken = tokenProvider.generateRefreshToken(authentication.getName());

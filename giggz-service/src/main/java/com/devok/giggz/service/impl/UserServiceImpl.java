@@ -10,6 +10,7 @@ import com.devok.giggz.service.UserService;
 import com.devok.giggz.service.auth.UserPrincipal;
 import com.devok.giggz.service.dto.UserDTO;
 import com.devok.giggz.service.mapper.UserMapper;
+import com.devok.giggz.service.model.Event;
 import com.devok.giggz.service.model.authorization.User;
 import com.devok.giggz.service.repository.UserRepository;
 
@@ -46,13 +47,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO findById(long userId) {
+        return userMapper.toDto(userRepository.getReferenceById(userId));
+    }
+
+    @Override
     public UserDTO createUser(UserDTO userDTO) {
         // TODO Validate email format and password strength
         return save(userDTO);
     }
+
     @Override
     public UserDTO upsertOAuthUser(UserDTO userDTO) {
         return save(userDTO);
+    }
+
+    @Override
+    public void addEventToUser(long userId, Event event) {
+        User user = userRepository.getReferenceById(userId);
+        if (!user.getEvents().contains(event)) {
+            user.getEvents().add(event);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void removeEventFromUser(long userId, Event event) {
+        User user = userRepository.getReferenceById(userId);
+        if (user.getEvents().contains(event)) {
+            user.getEvents().remove(event);
+            userRepository.save(user);
+        }
     }
 
     private UserDTO save(UserDTO userDTO) {

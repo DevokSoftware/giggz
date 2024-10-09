@@ -3,7 +3,6 @@ package com.devok.giggz.service.impl;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.devok.giggz.service.ComedianService;
 import com.devok.giggz.service.LocationService;
 import com.devok.giggz.service.StandupService;
+import com.devok.giggz.service.UserService;
 import com.devok.giggz.service.dto.LocationDTO;
 import com.devok.giggz.service.dto.StandupDTO;
 import com.devok.giggz.service.dto.event.CreateEventDTO;
@@ -31,14 +31,16 @@ public class EventServiceImpl implements EventService {
     private final LocationService locationService;
     private final ComedianService comedianService;
     private final StandupService standupService;
+    private final UserService userService;
 
     public EventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, LocationService locationService,
-                            ComedianService comedianService, StandupService standupService) {
+                            ComedianService comedianService, StandupService standupService, UserService userService) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
         this.locationService = locationService;
         this.comedianService = comedianService;
         this.standupService = standupService;
+        this.userService = userService;
     }
 
     @Override
@@ -72,7 +74,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventDTO> findAllByUser(long userId) {
-        return eventRepository.findEventsByUserId(userId).stream().map(eventMapper::toDto).collect(Collectors.toList());
+        return eventRepository.findEventsByUserId(userId).stream().map(eventMapper::toDto).toList();
     }
 
     @Override
@@ -105,6 +107,17 @@ public class EventServiceImpl implements EventService {
         Event event = eventRepository.getReferenceById(id);
         event.removeEventFromComedians();
         eventRepository.delete(event);
+    }
+
+    @Override
+    public EventDTO attendedEventByUser(long userId, long eventId, Boolean isAttended) {
+        Event event = eventRepository.getReferenceById(eventId);
+        if (Boolean.TRUE.equals(isAttended)) {
+            userService.addEventToUser(userId, event);
+        } else {
+            userService.removeEventFromUser(userId, event);
+        }
+        return eventMapper.toDto(event);
     }
 
     private void setLocation(Long locationId, EventDTO eventDto) {

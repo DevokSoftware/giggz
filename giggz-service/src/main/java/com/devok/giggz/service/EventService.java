@@ -16,8 +16,10 @@ public interface EventService {
 
     Page<EventDTO> findAllByComedian(Pageable pageable, Long comedianId, OffsetDateTime dateFrom, OffsetDateTime dateTo);
 
-    //TODO implement pageable
+    // TODO implement pageable
     List<EventDTO> findAllByUser(long userId);
+
+    EventDTO attendedEventByUser(long userId, long eventId, Boolean isAttended);
 
     EventDTO getById(long id);
 

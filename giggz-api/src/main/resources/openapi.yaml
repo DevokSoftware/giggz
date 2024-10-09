@@ -261,6 +261,31 @@ paths:
       responses:
         200:
           description: Event deleted
+  /events/{eventId}/attended:
+    post:
+      tags:
+        - Event
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttendedEventInput'
+        required: true
+      responses:
+        200:
+          description: Event attended
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponse'
   /locations:
     post:
       tags:
@@ -587,7 +612,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /users/{userId}/events/attended:
     get:
-      summary: Get Events attended by the user
+      summary: Get Events attended by user
       description: Retrieve all the Events attended by the user
       tags:
         - User
@@ -603,7 +628,7 @@ paths:
             minimum: 1
       responses:
         '200':
-          description: Successfully retrieved standups attended by the user
+          description: Successfully retrieved Events attended by the user
           content:
             application/json:
               schema:
@@ -616,6 +641,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /me/events/attended:
+    get:
+      summary: Get Events attended by logged user
+      description: Retrieve all the Events attended by logged user
+      tags:
+        - User
+      security:
+        - bearerAuth: [ ] # Requires bearer token for authentication
+      responses:
+        '200':
+          description: Successfully retrieved events attended by logged user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventResponse'
+        '401':
+          description: Unauthorized (invalid or missing token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   schemas:
     CreateEventRequest:
@@ -755,6 +804,8 @@ components:
             $ref: '#/components/schemas/EventComedianResponse'
         standup:
           $ref: '#/components/schemas/Standup'
+        isAttendedByLoggedUser:
+          type: boolean
     ComedianEventResponse:
       title: ComedianEventResponse
       required:
@@ -781,6 +832,8 @@ components:
           $ref: '#/components/schemas/Location'
         standup:
           $ref: '#/components/schemas/Standup'
+        isAttendedByLoggedUser:
+          type: boolean
     Location:
       title: Location
       required:
@@ -1027,6 +1080,13 @@ components:
           type: string
           format: password
           example: "password123"
+    AttendedEventInput:
+      type: object
+      required:
+        - isAttended
+      properties:
+        isAttended:
+          type: boolean
   securitySchemes:
     bearerAuth:
       type: http

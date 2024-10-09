@@ -6,7 +6,6 @@ spring:
     url: jdbc:postgresql://${GIGGZ_DATABASE_URL}
     password: ${GIGGZ_DATABASE_PASSWORD}
     username: ${GIGGZ_DATABASE_USERNAME}
-
   jpa:
     properties:
       hibernate:
@@ -26,3 +25,4 @@ spring:
 logging:
   level:
     org.springframework.security: DEBUG
+

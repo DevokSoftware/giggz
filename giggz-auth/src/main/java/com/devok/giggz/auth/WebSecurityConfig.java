@@ -18,25 +18,37 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.devok.giggz.auth.jwt.TokenAuthenticationFilter;
 import com.devok.giggz.service.impl.UserServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
-    @Autowired
     private UserServiceImpl userService;
 
-    @Autowired
-    TokenAuthenticationFilter tokenAuthenticationFilter;
+    private TokenAuthenticationFilter tokenAuthenticationFilter;
 
-    @Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
+
+    public WebSecurityConfig(UserServiceImpl userService,
+                             TokenAuthenticationFilter tokenAuthenticationFilter,
+                             CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler,
+                             CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+        this.userService = userService;
+        this.tokenAuthenticationFilter = tokenAuthenticationFilter;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
+    }
 
     //TODO check if this approach opens a security breach
     @Bean
@@ -65,18 +77,27 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers("/api/profile/**").authenticated() //endpoints started by /profile should be authenticated
-                            .requestMatchers("/**").permitAll(); //other endpoints dont require auth
+                            .requestMatchers("/api-docs").permitAll()
+                            .requestMatchers("/auth/**").permitAll()
+                            //TODO check this, because some of these actually require auth
+                            .requestMatchers("/events/**").permitAll()
+                            .requestMatchers("/comedians/**").permitAll()
+                            .requestMatchers("/standups/**").permitAll()
+                            .anyRequest().authenticated(); //other endpoints dont require auth
                 })
                 .oauth2Login(oauth2 -> oauth2
-                                .successHandler(customAuthenticationSuccessHandler) // Use custom success handler
-                        //.failureHandler(customAuthenticationFailureHandler) // Use custom failure handler
-                        //.loginPage("http://localhost:3000/login") // Optional custom login page
-                        //.defaultSuccessUrl("http://localhost:3000/homepage", true) // Remove defaultSuccessUrl
-                        //.failureUrl("http://localhost:3000/test"))  // Redirect to /login-failure on failure
+                        .successHandler(customAuthenticationSuccessHandler)
+                        .failureHandler(customAuthenticationFailureHandler)
                 )
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"Access denied\"}");
+                        }))
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // Enable sessions for OAuth2
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)  // Ensure the JWT filter is in the chain
                 .build();
     }
 
@@ -86,7 +107,6 @@ public class WebSecurityConfig {
         authenticationProvider.setUserDetailsService(userService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
-
     }
 
     @Bean

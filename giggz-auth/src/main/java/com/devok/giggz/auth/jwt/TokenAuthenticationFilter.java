@@ -51,7 +51,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
 
         //TODO check if it is needed to check everytime if the user is valid in DB
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (email != null) {
             UserPrincipal userPrincipal = (UserPrincipal) userService.loadUserByUsername(email);
             if (Boolean.TRUE.equals(tokenProvider.validateTokenForUser(token, userPrincipal))) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
