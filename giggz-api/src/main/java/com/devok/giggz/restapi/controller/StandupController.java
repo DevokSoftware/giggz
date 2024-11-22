@@ -33,14 +33,14 @@ public class StandupController implements StandupsApi {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<Standup> standupsPost(StandupInput standupInput) {
         StandupDTO standupDTO = standupService.create(standupApiMapper.toDto(standupInput));
         return ResponseEntity.status(HttpStatus.OK).body(standupApiMapper.toApi(standupDTO));
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> standupsStandupIdDelete(Long standupId) {
         standupService.delete(standupId);
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -52,7 +52,7 @@ public class StandupController implements StandupsApi {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<Standup> standupsStandupIdPut(Long standupId, StandupInput standupInput) {
         StandupDTO standupDTO = standupService.update(standupId, standupApiMapper.toDto(standupInput));
         return ResponseEntity.status(HttpStatus.OK).body(standupApiMapper.toApi(standupDTO));

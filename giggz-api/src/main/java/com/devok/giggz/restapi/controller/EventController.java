@@ -41,7 +41,7 @@ public class EventController implements EventsApi {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<EventResponse> eventsPost(CreateEventRequest createEventRequest) {
         EventDTO createdEvent = eventService.create(eventApiMapper.toDTO(createEventRequest));
         return ResponseEntity.status(HttpStatus.CREATED).body(eventApiMapper.toEventResponse(createdEvent));
@@ -54,14 +54,14 @@ public class EventController implements EventsApi {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<EventResponse> eventsEventIdPut(Long eventId, UpdateEventRequest updateEventRequest) {
         EventDTO updatedEvent = eventService.update(eventId, eventApiMapper.toDTO(updateEventRequest));
         return ResponseEntity.status(HttpStatus.OK).body(eventApiMapper.toEventResponse(updatedEvent));
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> eventsEventIdDelete(Long eventId) {
         eventService.delete(eventId);
         return ResponseEntity.status(HttpStatus.OK).build();

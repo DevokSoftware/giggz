@@ -1,5 +1,7 @@
 package com.devok.giggz.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import com.devok.giggz.service.mapper.ComedianMapper;
 import com.devok.giggz.service.ComedianService;
 import com.devok.giggz.service.model.Comedian;
 import com.devok.giggz.service.repository.ComedianRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ComedianServiceImpl implements ComedianService {
@@ -33,7 +36,12 @@ public class ComedianServiceImpl implements ComedianService {
 
     @Override
     public Comedian getEntity(long id) {
-        return comedianRepository.getReferenceById(id);
+        Optional<Comedian> comedian = comedianRepository.findById(id);
+        if (comedian.isPresent()) {
+            return comedian.get();
+        }
+        //TODO user custom exception
+        throw new EntityNotFoundException();
     }
 
     @Override

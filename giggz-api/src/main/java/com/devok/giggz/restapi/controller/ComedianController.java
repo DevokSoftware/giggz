@@ -52,21 +52,21 @@ public class ComedianController implements ComediansApi {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<ComedianResponse> comediansPost(CreateComedianRequest createComedianRequest) {
         ComedianDTO comedianDTO = comedianService.create(comedianApiMapper.toDTO(createComedianRequest));
         return ResponseEntity.status(HttpStatus.CREATED).body(comedianApiMapper.toComedianResponse(comedianDTO));
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<ComedianResponse> comediansComedianIdPut(Long comedianId, UpdateComedianRequest updateComedianRequest) {
         ComedianDTO comedianDTO = comedianService.update(comedianId, comedianApiMapper.toDTO(updateComedianRequest));
         return ResponseEntity.status(HttpStatus.OK).body(comedianApiMapper.toComedianResponse(comedianDTO));
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> comediansComedianIdDelete(Long comedianId) {
         comedianService.delete(comedianId);
         return ResponseEntity.status(HttpStatus.OK).build();

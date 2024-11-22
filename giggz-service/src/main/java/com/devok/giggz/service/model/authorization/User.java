@@ -43,5 +43,5 @@ public class User {
     private Set<Role> roles = new HashSet<>();
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name = "USER_EVENT", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
-    private Set<Event> events = new HashSet<>();
+    private Set<Event> attendedEvents = new HashSet<>();
 }

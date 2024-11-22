@@ -664,6 +664,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /me/profile:
+    get:
+      summary: Get logged user's profile
+      description: Retrieve the authenticated user's profile information.
+      tags:
+        - User
+      security:
+        - bearerAuth: [ ] # Requires bearer token for authentication
+      responses:
+        '200':
+          description: Successfully retrieved logged user's profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized (invalid or missing token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
@@ -723,6 +744,8 @@ components:
       title: ContentInput
       type: object
       properties:
+        id:
+          type: string
         name:
           type: string
         contentType:
@@ -1054,7 +1077,10 @@ components:
         email:
           type: string
           description: The email of the user.
-        name:
+        firstName:
+          type: string
+          description: The name of the user.
+        lastName:
           type: string
           description: The name of the user.
         createdAt:
@@ -1076,6 +1102,12 @@ components:
           type: string
           format: email
           example: "user@example.com"
+        firstName:
+          type: string
+          example: "John"
+        lastName:
+          type: string
+          example: "Smith"
         password:
           type: string
           format: password

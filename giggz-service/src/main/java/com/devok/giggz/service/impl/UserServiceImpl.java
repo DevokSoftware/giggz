@@ -1,7 +1,9 @@
 package com.devok.giggz.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -30,11 +32,15 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("Could not found user..!!");
         }
+        List<SimpleGrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .toList();
+
         return new UserPrincipal(user.getId(),
                 user.getEmail(),
                 user.getUsername(),
                 user.getPassword(),
-                null);
+                authorities);
     }
 
     @Override
@@ -65,17 +71,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addEventToUser(long userId, Event event) {
         User user = userRepository.getReferenceById(userId);
-        if (!user.getEvents().contains(event)) {
-            user.getEvents().add(event);
+        if (!user.getAttendedEvents().contains(event)) {
+            user.getAttendedEvents().add(event);
             userRepository.save(user);
         }
     }
 
     @Override
     public void removeEventFromUser(long userId, Event event) {
-        User user = userRepository.getReferenceById(userId);
-        if (user.getEvents().contains(event)) {
-            user.getEvents().remove(event);
+         User user = userRepository.getReferenceById(userId);
+        if (user.getAttendedEvents().contains(event)) {
+            user.getAttendedEvents().remove(event);
             userRepository.save(user);
         }
     }

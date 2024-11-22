@@ -26,28 +26,28 @@ public class LocationController implements LocationsApi {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Location>> locationsGet(LocationsGetFiltersParameter filters) {
         List<LocationDTO> locations = locationService.findAll(locationsApiMapper.toFilter(filters));
         return ResponseEntity.status(HttpStatus.OK).body(locationsApiMapper.toApi(locations));
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<Location> locationsPost(LocationInput locationInput) {
         LocationDTO location = locationService.create(locationsApiMapper.toDto(locationInput));
         return ResponseEntity.status(HttpStatus.OK).body(locationsApiMapper.toApi(location));
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<Location> locationsLocationIdGet(Long locationId) {
         LocationDTO location = locationService.getById(locationId);
         return ResponseEntity.status(HttpStatus.OK).body(locationsApiMapper.toApi(location));
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<Location> locationsLocationIdPut(Long locationId, LocationInput locationInput) {
         LocationDTO location = locationService.update(locationId, locationsApiMapper.toDto(locationInput));
         return ResponseEntity.status(HttpStatus.OK).body(locationsApiMapper.toApi(location));
@@ -55,7 +55,7 @@ public class LocationController implements LocationsApi {
 
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> locationsLocationIdDelete(Long locationId) {
         locationService.delete(locationId);
         return ResponseEntity.status(HttpStatus.OK).build();

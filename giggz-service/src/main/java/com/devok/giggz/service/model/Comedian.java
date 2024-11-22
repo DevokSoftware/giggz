@@ -36,7 +36,7 @@ public class Comedian {
     private String youtube;
     private String tiktok;
     private String twitter;
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH }, fetch = FetchType.EAGER)
     @JoinTable(name = "COMEDIAN_CONTENT", joinColumns = @JoinColumn(name = "comedian_id"), inverseJoinColumns = @JoinColumn(name = "content_id") )
     @OrderBy("contentType")
     private Set<Content> contents;

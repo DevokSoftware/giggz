@@ -41,12 +41,12 @@ public class Event {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "location")
     private Location location;
-    @ManyToMany(mappedBy = "events", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
     Set<Comedian> comedians;
     @ManyToOne
     @JoinColumn(name = "standup_id")
     private Standup standup;
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany(mappedBy = "attendedEvents", fetch = FetchType.EAGER)
     Set<User> users;
 
     public void addComedian(Comedian comedian) {
