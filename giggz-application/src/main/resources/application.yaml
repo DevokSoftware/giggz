@@ -20,8 +20,8 @@ spring:
       client:
         registration:
           google:
-            clientId: ENC(L4LsD/n9utILxUCzQ9nmUiG7O9WFLUpDUrpovKm12vk0aawX6P0K0kqTMhhwh0LsfJJdLU/L92H9pCn+sSeGLs3D0lUiZz9qeFdu1S6XyhnCnsF8tti6xw==)
-            clientSecret: ENC(jLBFCSLAujDKxkFc3fvgGwK/pEgJP5QPc1nD37L1cU6lDm7m1x/9a9Tl3vrwAHYQ)
+            clientId: ${GIGGZ_GOOGLE_CLIENT_ID}
+            clientSecret: ${GIGGZ_GOOGLE_CLIENT_SECRET}
 logging:
   level:
     org.springframework.security: DEBUG
