@@ -24,10 +24,10 @@ public interface EventMapper {
     void updateValues(UpdateEventDTO updatedEvent, @MappingTarget EventDTO eventDto);
 
     default boolean setAttendedByLoggedUser(Event event) {
-        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserPrincipal user
-                && event.getUsers().stream().anyMatch(u -> u.getId() == user.getId())) {
-            return true;
+        if (event.getUsers() == null) {
+            return false;
         }
-        return false;
+        return SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserPrincipal user
+                && event.getUsers().stream().anyMatch(u -> u.getId() == user.getId());
     }
 }
