@@ -1,5 +1,7 @@
 package com.devok.giggz.restapi.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -73,5 +75,11 @@ public class EventController implements EventsApi {
         UserPrincipal user = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         EventDTO eventDTO = eventService.attendedEventByUser(user.getId(), eventId, attendedEventInput.getIsAttended());
         return ResponseEntity.status(HttpStatus.OK).body(eventApiMapper.toEventResponse(eventDTO));
+    }
+
+    @Override
+    public ResponseEntity<List<EventResponse>> eventsTrendingGet() {
+        List<EventDTO> trendingEvents = eventService.findByTrending();
+        return ResponseEntity.status(HttpStatus.OK).body(eventApiMapper.toEventsResponse(trendingEvents));
     }
 }

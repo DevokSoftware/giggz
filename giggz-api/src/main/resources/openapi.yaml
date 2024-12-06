@@ -286,6 +286,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventResponse'
+  /events/trending:
+    get:
+      tags:
+        - Event
+      responses:
+        200:
+          description: Trending events
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrendingEventsResponse'
   /locations:
     post:
       tags:
@@ -943,6 +954,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContentInput'
+        inactive:
+          type: boolean
     ComedianResponse:
       title: ComedianResponse
       required:
@@ -972,6 +985,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContentResponse'
+        inactive:
+          type: boolean
     Standup:
       title: Standup
       required:
@@ -1119,6 +1134,10 @@ components:
       properties:
         isAttended:
           type: boolean
+    TrendingEventsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/EventResponse'
   securitySchemes:
     bearerAuth:
       type: http

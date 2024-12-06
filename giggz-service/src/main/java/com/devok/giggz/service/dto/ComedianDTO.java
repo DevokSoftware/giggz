@@ -18,4 +18,5 @@ public class ComedianDTO {
     private String tiktok;
     private String twitter;
     private Set<ComedianContentDTO> contents;
+    private boolean inactive;
 }

@@ -28,4 +28,7 @@ public interface EventService {
     EventDTO update(long id, UpdateEventDTO event);
 
     void delete(long id);
+
+    // TODO check later if it makes sense to move this to findAll and apply filters
+    List<EventDTO> findByTrending();
 }

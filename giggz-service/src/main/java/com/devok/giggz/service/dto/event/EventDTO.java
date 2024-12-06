@@ -24,5 +24,6 @@ public class EventDTO {
     private LocationDTO location;
     private Set<ComedianDTO> comedians;
     private StandupDTO standup;
-    private Boolean isAttendedByLoggedUser;
+    private boolean isAttendedByLoggedUser;
+    private boolean isTrending;
 }

@@ -13,7 +13,7 @@ import com.devok.giggz.service.model.Event;
 
 @Mapper(componentModel = "spring")
 public interface EventMapper {
-    @Mapping(target = "isAttendedByLoggedUser", expression = "java(setIsAttendedByLoggedUser(event))")
+    @Mapping(target = "attendedByLoggedUser", expression = "java(setAttendedByLoggedUser(event))")
     EventDTO toDto(Event event);
 
     Event toEntity(EventDTO event);
@@ -23,12 +23,11 @@ public interface EventMapper {
     @Mapping(target = "id", ignore = true)
     void updateValues(UpdateEventDTO updatedEvent, @MappingTarget EventDTO eventDto);
 
-    default Boolean setIsAttendedByLoggedUser(Event event) {
-        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserPrincipal user) {
-            if (event.getUsers().stream().anyMatch(u -> u.getId() == user.getId())) {
-                return Boolean.TRUE;
-            }
+    default boolean setAttendedByLoggedUser(Event event) {
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserPrincipal user
+                && event.getUsers().stream().anyMatch(u -> u.getId() == user.getId())) {
+            return true;
         }
-        return Boolean.FALSE;
+        return false;
     }
 }

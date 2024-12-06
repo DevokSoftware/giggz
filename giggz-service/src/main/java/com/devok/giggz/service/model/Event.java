@@ -48,6 +48,7 @@ public class Event {
     private Standup standup;
     @ManyToMany(mappedBy = "attendedEvents", fetch = FetchType.EAGER)
     Set<User> users;
+    private Boolean isTrending;
 
     public void addComedian(Comedian comedian) {
         if (comedians == null) {

@@ -43,6 +43,7 @@ public class Comedian {
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name = "COMEDIAN_EVENT", joinColumns = @JoinColumn(name = "comedian_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events;
+    private Boolean inactive;
 
     public void addEvent(Event event) {
         if(events == null){

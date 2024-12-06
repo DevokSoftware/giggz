@@ -12,7 +12,8 @@ import com.devok.giggz.service.model.Comedian;
 @Repository
 public interface ComedianRepository extends JpaRepository<Comedian, Long> {
     @Query(value = "SELECT DISTINCT c FROM Comedian c " +
-            "WHERE (:comedianName IS NULL or :comedianName = '' OR (LOWER(c.name) LIKE LOWER(CONCAT('%', :comedianName, '%'))))")
+            "WHERE (:comedianName IS NULL or :comedianName = '' OR (LOWER(c.name) LIKE LOWER(CONCAT('%', :comedianName, '%'))))" +
+            "AND c.inactive = false ")
     Page<Comedian> findByFilters(
             @Param("comedianName") String comedianName,
             Pageable pageable);

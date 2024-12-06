@@ -37,4 +37,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "JOIN e.users u " +
             "WHERE u.id = :userId")
     List<Event> findEventsByUserId(@Param("userId") long userId);
+
+    List<Event> findTop4ByIsTrendingIsTrue();
 }
