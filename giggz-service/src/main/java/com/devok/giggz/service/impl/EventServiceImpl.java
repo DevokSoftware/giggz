@@ -122,7 +122,11 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventDTO> findByTrending() {
-        return eventRepository.findTop4ByIsTrendingIsTrue().stream().map(eventMapper::toDto).toList();
+        return eventRepository
+                .findTop4ByIsTrendingIsTrueAndDateIsAfterOrderByDateAsc(OffsetDateTime.now())
+                .stream()
+                .map(eventMapper::toDto)
+                .toList();
     }
 
     private void setLocation(Long locationId, EventDTO eventDto) {

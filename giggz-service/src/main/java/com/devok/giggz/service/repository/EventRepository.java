@@ -38,5 +38,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "WHERE u.id = :userId")
     List<Event> findEventsByUserId(@Param("userId") long userId);
 
-    List<Event> findTop4ByIsTrendingIsTrue();
+    List<Event> findTop4ByIsTrendingIsTrueAndDateIsAfterOrderByDateAsc(OffsetDateTime date);
 }
