@@ -18,9 +18,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "LEFT JOIN e.comedians c " +
             "LEFT JOIN e.location l " +
             "LEFT JOIN e.standup s " +
-            "WHERE (:eventName IS NULL or :eventName = '' OR (LOWER(e.name) LIKE LOWER(CONCAT('%', :eventName, '%')))) " +
+            "WHERE (:eventName IS NULL OR :eventName = '' OR (LOWER(e.name) LIKE LOWER(CONCAT('%', :eventName, '%'))) OR (LOWER(s.name) LIKE LOWER(CONCAT('%', :eventName, '%')))) " +
             "AND (:comedianId IS NULL OR c.id = :comedianId) " +
             "AND (:locationCity IS NULL OR l.city = :locationCity)" +
+            "AND (:locationCity IS NULL OR :locationCity = '' OR (LOWER(l.city) LIKE LOWER(CONCAT('%', :locationCity, '%')))) " +
             "AND (cast(:dateFrom as timestamp) IS NULL OR e.date >= :dateFrom)" +
             "AND (cast(:dateTo as timestamp) IS NULL OR e.date <= :dateTo)" +
             "AND (:standupId IS NULL OR s.id = :standupId) ")

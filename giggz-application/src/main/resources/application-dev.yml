@@ -4,5 +4,5 @@ spring:
       on-profile: dev
 
 oauth2:
-  redirect-uri: https://giggz.onrender.com/oauth2/redirect
-  host: https://giggz.onrender.com/
+  redirect-uri: http://localhost:3000/oauth2/redirect
+  host: http://localhost:8080/

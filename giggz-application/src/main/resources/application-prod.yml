@@ -5,4 +5,4 @@ spring:
 
 oauth2:
   redirect-uri: https://giggz.onrender.com/oauth2/redirect
-  host: https://giggz.onrender.com/
+  host: https://giggz-ws.onrender.com/
