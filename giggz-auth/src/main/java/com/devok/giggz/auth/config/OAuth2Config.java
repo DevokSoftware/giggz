@@ -20,6 +20,9 @@ public class OAuth2Config {
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
 
+    @Value("${oauth2.host}")
+    private String host;
+
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
         return new InMemoryClientRegistrationRepository(Arrays.asList(
@@ -33,7 +36,7 @@ public class OAuth2Config {
                 .clientSecret(googleClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://localhost:8080/api/login/oauth2/code/google")
+                .redirectUri(host + "api/login/oauth2/code/google")
 //                .scope("openid", "profile", "email")
                 .scope( "profile", "email")
                 .authorizationUri("https://accounts.google.com/o/oauth2/auth")
