@@ -56,7 +56,7 @@ public class TokenProvider {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 15 * 60 * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + 2 *  60 * 60 * 1000)) //Access token expires in 2 hours
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 
