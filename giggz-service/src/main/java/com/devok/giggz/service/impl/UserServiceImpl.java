@@ -91,7 +91,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addFavoriteComedianToUser(long userId, Comedian comedian) {
         User user = userRepository.getReferenceById(userId);
-        if (!user.getFavoriteComedians().contains(comedian)) {
+        if (user.getFavoriteComedians().size() < 6
+                && !user.getFavoriteComedians().contains(comedian)) {
             user.getFavoriteComedians().add(comedian);
             userRepository.save(user);
         }
