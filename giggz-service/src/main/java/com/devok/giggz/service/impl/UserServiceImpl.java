@@ -12,6 +12,7 @@ import com.devok.giggz.service.UserService;
 import com.devok.giggz.service.auth.UserPrincipal;
 import com.devok.giggz.service.dto.UserDTO;
 import com.devok.giggz.service.mapper.UserMapper;
+import com.devok.giggz.service.model.Comedian;
 import com.devok.giggz.service.model.Event;
 import com.devok.giggz.service.model.authorization.User;
 import com.devok.giggz.service.repository.UserRepository;
@@ -79,9 +80,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeEventFromUser(long userId, Event event) {
-         User user = userRepository.getReferenceById(userId);
+        User user = userRepository.getReferenceById(userId);
         if (user.getAttendedEvents().contains(event)) {
             user.getAttendedEvents().remove(event);
+            userRepository.save(user);
+        }
+    }
+
+
+    @Override
+    public void addFavoriteComedianToUser(long userId, Comedian comedian) {
+        User user = userRepository.getReferenceById(userId);
+        if (!user.getFavoriteComedians().contains(comedian)) {
+            user.getFavoriteComedians().add(comedian);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void removeFavoriteComedianFromUser(long userId, Comedian comedian) {
+        User user = userRepository.getReferenceById(userId);
+        if (user.getFavoriteComedians().contains(comedian)) {
+            user.getFavoriteComedians().remove(comedian);
             userRepository.save(user);
         }
     }

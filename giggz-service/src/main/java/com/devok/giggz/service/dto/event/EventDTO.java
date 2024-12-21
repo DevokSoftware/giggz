@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.devok.giggz.service.dto.ComedianDTO;
 import com.devok.giggz.service.dto.LocationDTO;
-import com.devok.giggz.service.dto.StandupDTO;
+import com.devok.giggz.service.dto.standup.StandupDTO;
 import lombok.Getter;
 import lombok.Setter;
 

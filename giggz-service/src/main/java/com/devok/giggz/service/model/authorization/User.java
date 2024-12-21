@@ -1,5 +1,6 @@
 package com.devok.giggz.service.model.authorization;
 import com.devok.giggz.service.enums.AuthProvider;
+import com.devok.giggz.service.model.Comedian;
 import com.devok.giggz.service.model.Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -41,7 +42,10 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(name = "USER_EVENT", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> attendedEvents = new HashSet<>();
+    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinTable(name = "USER_FAVORITE_COMEDIAN", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "comedian_id"))
+    private Set<Comedian> favoriteComedians = new HashSet<>();
 }

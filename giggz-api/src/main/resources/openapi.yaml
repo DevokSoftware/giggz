@@ -147,6 +147,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageComedianEventsResponse'
+  /comedians/{comedianId}/favorite:
+    post:
+      tags:
+        - Comedian
+      parameters:
+        - name: comedianId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isFavorite:
+                  type: boolean
+        required: true
+      responses:
+        200:
+          description: Favorite comedian added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComedianResponse'
   /events:
     post:
       tags:
@@ -277,7 +305,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AttendedEventInput'
+              type: object
+              properties:
+                isAttended:
+                  type: boolean
         required: true
       responses:
         200:
@@ -480,6 +511,17 @@ paths:
       responses:
         200:
           description: Stand-up deleted
+  /news:
+    get:
+      tags:
+        - News
+      responses:
+        200:
+          description: All the recent news among new standups, stand up specials, etc
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/NewsResponse'
   /auth/login:
     post:
       tags:
@@ -696,6 +738,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /me/comedians/favorites:
+    get:
+      summary: Get favorite comedians by logged user
+      description: Retrieve all the favorite Comedians of the logged user
+      tags:
+        - User
+      security:
+        - bearerAuth: [ ] # Requires bearer token for authentication
+      responses:
+        '200':
+          description: Successfully retrieved favorite Comedians of the logged user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ComedianResponse'
+        '401':
+          description: Unauthorized (invalid or missing token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
@@ -763,6 +828,8 @@ components:
           $ref: '#/components/schemas/ContentType'
         url:
           type: string
+        isTrending:
+          type: boolean
     ContentResponse:
       title: ContentResponse
       required:
@@ -778,6 +845,34 @@ components:
           $ref: '#/components/schemas/ContentType'
         url:
           type: string
+        isTrending:
+          type: boolean
+    NewsContent:
+      title: NewsContent
+      required:
+        - id
+        - contentType
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        contentType:
+          $ref: '#/components/schemas/ContentType'
+        url:
+          type: string
+        comedians:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              picture:
+                type: string
     ContentType:
       type: string
       enum:
@@ -838,7 +933,7 @@ components:
             $ref: '#/components/schemas/EventComedianResponse'
         standup:
           $ref: '#/components/schemas/Standup'
-        isAttendedByLoggedUser:
+        attendedByLoggedUser:
           type: boolean
     ComedianEventResponse:
       title: ComedianEventResponse
@@ -866,7 +961,7 @@ components:
           $ref: '#/components/schemas/Location'
         standup:
           $ref: '#/components/schemas/Standup'
-        isAttendedByLoggedUser:
+        attendedByLoggedUser:
           type: boolean
     Location:
       title: Location
@@ -987,6 +1082,8 @@ components:
             $ref: '#/components/schemas/ContentResponse'
         inactive:
           type: boolean
+        favoriteOfLoggedUser:
+          type: boolean
     Standup:
       title: Standup
       required:
@@ -1002,6 +1099,17 @@ components:
           type: string
         poster:
           type: string
+        comedian:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            picture:
+              type: string
+        isTrending:
+          type: boolean
     StandupInput:
       title: StandupInput
       type: object
@@ -1014,6 +1122,10 @@ components:
           type: string
         poster:
           type: string
+        comedianId:
+          type: string
+        isTrending:
+          type: boolean
     PageComedianEventsResponse:
       title: PageComedianEventsResponse
       type: object
@@ -1094,10 +1206,10 @@ components:
           description: The email of the user.
         firstName:
           type: string
-          description: The name of the user.
+          description: The first name of the user.
         lastName:
           type: string
-          description: The name of the user.
+          description: The last name of the user.
         createdAt:
           type: string
           format: date-time
@@ -1127,17 +1239,26 @@ components:
           type: string
           format: password
           example: "password123"
-    AttendedEventInput:
-      type: object
-      required:
-        - isAttended
-      properties:
-        isAttended:
-          type: boolean
     TrendingEventsResponse:
       type: array
       items:
         $ref: '#/components/schemas/EventResponse'
+    NewsResponse:
+      title: NewsResponse
+      type: object
+      properties:
+        standups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Standup'
+        youtube:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsContent'
+        podcasts:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsContent'
   securitySchemes:
     bearerAuth:
       type: http

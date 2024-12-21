@@ -1,5 +1,6 @@
 package com.devok.giggz.service.model;
 
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 import com.devok.giggz.service.enums.ContentType;
@@ -29,7 +30,9 @@ public class Content {
     private String name;
     private String url;
     @ManyToMany(mappedBy = "contents")
-    Set<Comedian> comedians;
+    private Set<Comedian> comedians;
+    private OffsetDateTime createdAt;
+    private Boolean isTrending;
 
     public static int contentTypeOrder(ContentType contentType) {
         switch (contentType) {

@@ -1,11 +1,14 @@
 package com.devok.giggz.service.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
 
+import com.devok.giggz.service.model.authorization.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,6 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,24 +44,15 @@ public class Comedian {
     @JoinTable(name = "COMEDIAN_CONTENT", joinColumns = @JoinColumn(name = "comedian_id"), inverseJoinColumns = @JoinColumn(name = "content_id") )
     @OrderBy("contentType")
     private Set<Content> contents;
-    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(name = "COMEDIAN_EVENT", joinColumns = @JoinColumn(name = "comedian_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "favoriteComedians", fetch = FetchType.LAZY)
+    Set<User> users;
+    @OneToMany(mappedBy = "comedian", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Standup> standups = new ArrayList<>();
     private Boolean inactive;
-
-    public void addEvent(Event event) {
-        if(events == null){
-            events = new HashSet<>();
-        }
-        event.getComedians().add(this);
-    }
-    public void removeEvent(Event event) {
-        if(events == null){
-            return;
-        }
-        this.events.remove(event);
-        event.getComedians().remove(this);
-    }
 
     @Override
     public boolean equals(Object o) {

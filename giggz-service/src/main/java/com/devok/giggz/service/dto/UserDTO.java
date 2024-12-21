@@ -27,4 +27,5 @@ public class UserDTO {
     private String providerId;
     private List<RoleDTO> roles;
     private List<EventDTO> attendedEvents;
+    private List<ComedianDTO> favoriteComedians;
 }

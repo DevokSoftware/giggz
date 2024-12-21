@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.devok.giggz.auth.exception.OAuth2AuthenticationProcessingException;
@@ -26,6 +27,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         this.userService = userService;
     }
 
+    @Transactional
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
@@ -74,6 +76,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return userService.upsertOAuthUser(userDTO);
     }
 
+    //Warning - be careful to not override for example the attendedEvents or the favoriteComedians
     private UserDTO updateExistingUser(UserDTO existingUserDTO, OAuth2UserInfo oAuth2UserInfo) {
         existingUserDTO.setUsername(oAuth2UserInfo.getName());
         existingUserDTO.setFirstName(oAuth2UserInfo.getFirstName());

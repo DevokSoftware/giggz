@@ -5,9 +5,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devok.giggz.openapi.model.ComediansComedianIdEventsGetFiltersParameter;
+import com.devok.giggz.openapi.model.ComediansComedianIdFavoritePostRequest;
 import com.devok.giggz.openapi.model.ComediansGetFiltersParameter;
 import com.devok.giggz.openapi.model.CreateComedianRequest;
 import com.devok.giggz.openapi.model.PageComedianEventsResponse;
@@ -18,6 +20,7 @@ import com.devok.giggz.openapi.api.ComediansApi;
 import com.devok.giggz.openapi.model.ComedianResponse;
 import com.devok.giggz.service.ComedianService;
 import com.devok.giggz.service.EventService;
+import com.devok.giggz.service.auth.UserPrincipal;
 import com.devok.giggz.service.dto.ComedianDTO;
 import com.devok.giggz.service.dto.event.EventDTO;
 
@@ -70,5 +73,12 @@ public class ComedianController implements ComediansApi {
     public ResponseEntity<Void> comediansComedianIdDelete(Long comedianId) {
         comedianService.delete(comedianId);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
+    public ResponseEntity<ComedianResponse> comediansComedianIdFavoritePost(Long comedianId, ComediansComedianIdFavoritePostRequest comediansComedianIdFavoritePostRequest) {
+        UserPrincipal user = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ComedianDTO comedianDTO = comedianService.favoriteComedianByUser(user.getId(), comedianId, comediansComedianIdFavoritePostRequest.getIsFavorite());
+        return ResponseEntity.status(HttpStatus.OK).body(comedianApiMapper.toComedianResponse(comedianDTO));
     }
 }

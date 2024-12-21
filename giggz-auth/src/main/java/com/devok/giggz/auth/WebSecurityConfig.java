@@ -82,6 +82,7 @@ public class WebSecurityConfig {
                             .requestMatchers("/events/**").permitAll()
                             .requestMatchers("/comedians/**").permitAll()
                             .requestMatchers("/standups/**").permitAll()
+                            .requestMatchers("/news/**").permitAll()
                             .anyRequest().authenticated(); //other endpoints dont require auth
                 })
                 .oauth2Login(oauth2 -> oauth2

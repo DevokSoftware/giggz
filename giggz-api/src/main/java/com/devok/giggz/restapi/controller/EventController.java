@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devok.giggz.openapi.model.AttendedEventInput;
+import com.devok.giggz.openapi.model.EventsEventIdAttendedPostRequest;
 import com.devok.giggz.openapi.model.EventsGetFiltersParameter;
 import com.devok.giggz.openapi.model.PageEventResponse;
 import com.devok.giggz.restapi.mapper.EventApiMapper;
@@ -71,9 +71,9 @@ public class EventController implements EventsApi {
 
     @Override
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<EventResponse> eventsEventIdAttendedPost(Long eventId, AttendedEventInput attendedEventInput) {
+    public ResponseEntity<EventResponse> eventsEventIdAttendedPost(Long eventId, EventsEventIdAttendedPostRequest eventsEventIdAttendedPostRequest) {
         UserPrincipal user = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        EventDTO eventDTO = eventService.attendedEventByUser(user.getId(), eventId, attendedEventInput.getIsAttended());
+        EventDTO eventDTO = eventService.attendedEventByUser(user.getId(), eventId, eventsEventIdAttendedPostRequest.getIsAttended());
         return ResponseEntity.status(HttpStatus.OK).body(eventApiMapper.toEventResponse(eventDTO));
     }
 
@@ -82,4 +82,5 @@ public class EventController implements EventsApi {
         List<EventDTO> trendingEvents = eventService.findByTrending();
         return ResponseEntity.status(HttpStatus.OK).body(eventApiMapper.toEventsResponse(trendingEvents));
     }
+
 }

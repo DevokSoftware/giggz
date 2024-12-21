@@ -13,7 +13,7 @@ import com.devok.giggz.service.LocationService;
 import com.devok.giggz.service.StandupService;
 import com.devok.giggz.service.UserService;
 import com.devok.giggz.service.dto.LocationDTO;
-import com.devok.giggz.service.dto.StandupDTO;
+import com.devok.giggz.service.dto.standup.StandupDTO;
 import com.devok.giggz.service.dto.event.CreateEventDTO;
 import com.devok.giggz.service.dto.event.EventDTO;
 import com.devok.giggz.service.dto.event.UpdateEventDTO;

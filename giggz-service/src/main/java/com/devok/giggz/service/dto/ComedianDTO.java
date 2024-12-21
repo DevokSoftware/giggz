@@ -19,4 +19,5 @@ public class ComedianDTO {
     private String twitter;
     private Set<ComedianContentDTO> contents;
     private boolean inactive;
+    private boolean favoriteOfLoggedUser;
 }

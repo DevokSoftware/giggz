@@ -1,5 +1,7 @@
 package com.devok.giggz.service.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +20,9 @@ public interface ComedianRepository extends JpaRepository<Comedian, Long> {
     Page<Comedian> findByFilters(
             @Param("comedianName") String comedianName,
             Pageable pageable);
+
+    @Query("SELECT c FROM Comedian c " +
+            "JOIN c.users u " +
+            "WHERE u.id = :userId")
+    List<Comedian> findFavoriteComediansByUserId(@Param("userId") long userId);
 }
