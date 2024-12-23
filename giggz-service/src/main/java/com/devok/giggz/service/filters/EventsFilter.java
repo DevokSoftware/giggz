@@ -4,9 +4,11 @@ import java.time.OffsetDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class EventsFilter {
     private String name;
     private Long comedianId;

@@ -3,6 +3,8 @@ package com.devok.giggz.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +25,7 @@ public class ComedianServiceImpl implements ComedianService {
     private final ComedianRepository comedianRepository;
     private final ComedianMapper comedianMapper;
     private final UserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(ComedianServiceImpl.class);
 
     public ComedianServiceImpl(ComedianRepository comedianRepository, ComedianMapper comedianMapper, UserService userService) {
         this.comedianRepository = comedianRepository;
@@ -33,6 +36,7 @@ public class ComedianServiceImpl implements ComedianService {
     @Override
     public Page<ComedianDTO> findAll(Pageable pageable, ComediansFilter comediansFilter) {
         Page<ComedianDTO> comedians = comedianRepository.findByFilters(comediansFilter.getName(), pageable).map(comedianMapper::toDto);
+        logger.info("Fetching comedians with filters: {}", comediansFilter);
         return comedians;
     }
 

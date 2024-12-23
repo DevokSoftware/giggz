@@ -4,6 +4,8 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ public class EventServiceImpl implements EventService {
     private final ComedianService comedianService;
     private final StandupService standupService;
     private final UserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(EventServiceImpl.class);
 
     public EventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, LocationService locationService,
                             ComedianService comedianService, StandupService standupService, UserService userService) {
@@ -50,6 +53,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<EventDTO> findAll(Pageable pageable, EventsFilter eventsFilter) {
+        logger.info("Fetching events with filters: {}", eventsFilter);
         return eventRepository.findAllByFilters(
                 eventsFilter.getName(),
                 eventsFilter.getComedianId(),
@@ -62,6 +66,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<EventDTO> findAllByComedian(Pageable pageable, Long comedianId, OffsetDateTime dateFrom, OffsetDateTime dateTo) {
+        logger.info("Fetching events for comedian with {}, between {} and {}", comedianId, dateFrom, dateTo);
         return eventRepository.findAllByFilters(
                 null,
                 comedianId,
