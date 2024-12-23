@@ -56,7 +56,7 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.applyPermitDefaultValues();
         configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:3001",
-                "https://giggz-dashboard.onrender.com", "https://giggz.onrender.com"));
+                "https://giggz-dashboard.onrender.com", "https://giggz.onrender.com", "https://giggz.pt"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowCredentials(true);
         configuration.addAllowedHeader("*");

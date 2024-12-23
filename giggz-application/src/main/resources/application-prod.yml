@@ -4,5 +4,5 @@ spring:
       on-profile: prod
 
 oauth2:
-  redirect-uri: https://giggz.onrender.com/oauth2/redirect
+  redirect-uri: https://giggz.pt/oauth2/redirect
   host: https://giggz-ws.onrender.com/
