@@ -2,6 +2,8 @@ package com.devok.giggz.auth.oauth;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -22,7 +24,7 @@ import com.devok.giggz.service.auth.UserPrincipal;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserService userService;
-
+    private static final Logger logger = LoggerFactory.getLogger(CustomOAuth2UserService.class);
     public CustomOAuth2UserService(UserService userService) {
         this.userService = userService;
     }
@@ -46,7 +48,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
-
         Optional<UserDTO> userOptional = userService.findByEmail(oAuth2UserInfo.getEmail());
         UserDTO userDTO;
         if(userOptional.isPresent()) {
@@ -60,12 +61,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else {
             userDTO = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
-
         return UserPrincipal.create(userDTO, oAuth2User.getAttributes());
     }
 
     private UserDTO registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+        logger.info("Creating new user via oauth with email {}", oAuth2UserInfo.getEmail());
         UserDTO userDTO = new UserDTO();
+        //TODO check this provider variables, they are not being properly saved
         userDTO.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
         userDTO.setProviderId(oAuth2UserInfo.getId());
         userDTO.setUsername(oAuth2UserInfo.getName());
@@ -78,6 +80,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     //Warning - be careful to not override for example the attendedEvents or the favoriteComedians
     private UserDTO updateExistingUser(UserDTO existingUserDTO, OAuth2UserInfo oAuth2UserInfo) {
+        logger.info("Updating user via oauth with email {}", oAuth2UserInfo.getEmail());
         existingUserDTO.setUsername(oAuth2UserInfo.getName());
         existingUserDTO.setFirstName(oAuth2UserInfo.getFirstName());
         existingUserDTO.setLastName(oAuth2UserInfo.getLastName());

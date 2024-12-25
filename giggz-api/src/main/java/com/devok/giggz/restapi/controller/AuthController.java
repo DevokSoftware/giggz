@@ -3,6 +3,8 @@ package com.devok.giggz.restapi.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +34,8 @@ public class AuthController implements AuthApi {
     private final UserService userService;
     private final AuthMapper authMapper;
     private final PasswordEncoder passwordEncoder;
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
 
     public AuthController(AuthenticationManager authenticationManager, TokenProvider tokenProvider,
                           UserService userService, AuthMapper authMapper, PasswordEncoder passwordEncoder) {
@@ -52,6 +56,7 @@ public class AuthController implements AuthApi {
         }
 
         try {
+            logger.info("Logging in account with email: {} ", loginRequest.getEmail());
             List<SimpleGrantedAuthority> authorities = userOptional.get().getRoles().stream()
                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                     .toList();
@@ -75,8 +80,10 @@ public class AuthController implements AuthApi {
 
     @Override
     public ResponseEntity<AuthSignupPost200Response> authSignupPost(SignupRequest signupRequest) {
+        logger.info("Creating account with email: {} ", signupRequest.getEmail());
         Optional<UserDTO> user = userService.findByEmail(signupRequest.getEmail());
         if (user.isPresent()) {
+            logger.info("Email {} is already in use.", signupRequest.getEmail());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new AuthSignupPost200Response().message("Email is already in use."));
         }
@@ -84,6 +91,7 @@ public class AuthController implements AuthApi {
         try {
             String hashedPassword = passwordEncoder.encode(signupRequest.getPassword());
             userService.createUser(authMapper.toUserDto(signupRequest, hashedPassword));
+            logger.info("Account with email {} was created.", signupRequest.getEmail());
             return ResponseEntity.ok(new AuthSignupPost200Response().message("User registered successfully!"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
