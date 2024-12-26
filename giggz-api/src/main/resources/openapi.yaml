@@ -63,6 +63,12 @@ paths:
             type: integer
             format: int64
             minimum: 1
+        - name: thumbnail
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         201:
           description: Existing comedian
@@ -640,8 +646,6 @@ paths:
       description: Retrieve the authenticated user's profile information.
       tags:
         - User
-      security:
-        - bearerAuth: [ ] # Requires bearer token for authentication
       parameters:
         - name: userId
           in: path
@@ -663,14 +667,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /users/{userId}/comedians/favorites:
+    get:
+      summary: Get favorite comedians by user
+      description: Retrieve all the user's favorite comedians
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Successfully retrieved user's favorite comedians
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ComedianResponse'
+        '401':
+          description: Unauthorized (invalid or missing token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /users/{userId}/events/attended:
     get:
       summary: Get Events attended by user
       description: Retrieve all the Events attended by the user
       tags:
         - User
-      security:
-        - bearerAuth: [ ] # Requires bearer token for authentication
       parameters:
         - name: userId
           in: path
@@ -847,6 +878,8 @@ components:
           type: string
         isTrending:
           type: boolean
+        thumbnail:
+          type: string
     NewsContent:
       title: NewsContent
       required:

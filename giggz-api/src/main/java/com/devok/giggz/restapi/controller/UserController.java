@@ -50,9 +50,13 @@ public class UserController implements UsersApi, MeApi {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<EventResponse>> usersUserIdEventsAttendedGet(Long userId) {
         return ResponseEntity.ok(eventApiMapper.toEventsResponse(eventService.findAllByUser(userId)));
+    }
+
+    @Override
+    public ResponseEntity<List<ComedianResponse>> usersUserIdComediansFavoritesGet(Long userId) {
+        return ResponseEntity.ok(comedianApiMapper.toComedianResponseList(comedianService.findFavoriteByUser(userId)));
     }
 
     @Override

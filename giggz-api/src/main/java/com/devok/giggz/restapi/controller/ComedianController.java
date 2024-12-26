@@ -21,8 +21,11 @@ import com.devok.giggz.openapi.model.ComedianResponse;
 import com.devok.giggz.service.ComedianService;
 import com.devok.giggz.service.EventService;
 import com.devok.giggz.service.auth.UserPrincipal;
+import com.devok.giggz.service.dto.ComedianContentDTO;
 import com.devok.giggz.service.dto.ComedianDTO;
 import com.devok.giggz.service.dto.event.EventDTO;
+import com.devok.giggz.service.enums.ContentType;
+import com.devok.giggz.service.utils.ImageUtils;
 
 @RestController
 public class ComedianController implements ComediansApi {
@@ -37,8 +40,15 @@ public class ComedianController implements ComediansApi {
     }
 
     @Override
-    public ResponseEntity<ComedianResponse> comediansComedianIdGet(Long comedianId) {
+    public ResponseEntity<ComedianResponse> comediansComedianIdGet(Long comedianId, Boolean thumbnail) {
         ComedianDTO comedian = comedianService.getById(comedianId);
+        if(Boolean.TRUE.equals(thumbnail)) {
+            for (ComedianContentDTO contentDTO : comedian.getContents()) {
+                if (contentDTO.getContentType().equals(ContentType.YOUTUBE)) {
+                    contentDTO.setThumbnail(ImageUtils.fetchThumbnailAsBase64(contentDTO.getUrl(), true));
+                }
+            }
+        }
         return ResponseEntity.status(HttpStatus.OK).body(comedianApiMapper.toComedianResponse(comedian));
     }
 

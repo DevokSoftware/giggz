@@ -12,4 +12,5 @@ public class ComedianContentDTO {
     private String url;
     private String name;
     private Boolean isTrending;
+    private String thumbnail;
 }
