@@ -1,4 +1,4 @@
-package com.devok.giggz.service.impl;
+package com.devok.giggz.service.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.devok.giggz.service.UserService;
+import com.devok.giggz.service.service.UserService;
 import com.devok.giggz.service.auth.UserPrincipal;
 import com.devok.giggz.service.dto.UserDTO;
 import com.devok.giggz.service.mapper.UserMapper;

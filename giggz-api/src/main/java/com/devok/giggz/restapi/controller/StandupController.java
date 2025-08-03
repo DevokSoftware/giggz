@@ -11,7 +11,7 @@ import com.devok.giggz.openapi.api.StandupsApi;
 import com.devok.giggz.openapi.model.Standup;
 import com.devok.giggz.openapi.model.StandupInput;
 import com.devok.giggz.restapi.mapper.StandupApiMapper;
-import com.devok.giggz.service.StandupService;
+import com.devok.giggz.service.service.StandupService;
 import com.devok.giggz.service.dto.standup.StandupDTO;
 
 @RestController

@@ -1,4 +1,4 @@
-package com.devok.giggz.service.impl;
+package com.devok.giggz.service.service.impl;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -10,10 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.devok.giggz.service.ComedianService;
-import com.devok.giggz.service.LocationService;
-import com.devok.giggz.service.StandupService;
-import com.devok.giggz.service.UserService;
+import com.devok.giggz.service.service.ComedianService;
+import com.devok.giggz.service.service.LocationService;
+import com.devok.giggz.service.service.StandupService;
+import com.devok.giggz.service.service.UserService;
 import com.devok.giggz.service.dto.LocationDTO;
 import com.devok.giggz.service.dto.standup.StandupDTO;
 import com.devok.giggz.service.dto.event.CreateEventDTO;
@@ -24,7 +24,7 @@ import com.devok.giggz.service.mapper.EventMapper;
 import com.devok.giggz.service.model.Comedian;
 import com.devok.giggz.service.model.Event;
 import com.devok.giggz.service.repository.EventRepository;
-import com.devok.giggz.service.EventService;
+import com.devok.giggz.service.service.EventService;
 
 @Service
 public class EventServiceImpl implements EventService {

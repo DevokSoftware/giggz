@@ -6,12 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devok.giggz.openapi.api.NewsApi;
-import com.devok.giggz.openapi.model.ContentResponse;
-import com.devok.giggz.openapi.model.ContentType;
 import com.devok.giggz.openapi.model.NewsResponse;
-import com.devok.giggz.openapi.model.Standup;
 import com.devok.giggz.restapi.mapper.NewsApiMapper;
-import com.devok.giggz.service.NewsService;
+import com.devok.giggz.service.service.NewsService;
 
 @RestController
 public class NewsController implements NewsApi {

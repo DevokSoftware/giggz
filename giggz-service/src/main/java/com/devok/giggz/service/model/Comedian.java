@@ -38,6 +38,7 @@ public class Comedian {
     private Integer priority;
     private String instagram;
     private String youtube;
+    private String youtubeChannelId;
     private String tiktok;
     private String twitter;
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH }, fetch = FetchType.EAGER)

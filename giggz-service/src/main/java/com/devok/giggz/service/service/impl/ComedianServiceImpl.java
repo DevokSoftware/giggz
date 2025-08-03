@@ -1,4 +1,4 @@
-package com.devok.giggz.service.impl;
+package com.devok.giggz.service.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,12 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.devok.giggz.service.UserService;
+import com.devok.giggz.service.service.UserService;
 import com.devok.giggz.service.auth.UserPrincipal;
 import com.devok.giggz.service.dto.ComedianDTO;
 import com.devok.giggz.service.filters.ComediansFilter;
 import com.devok.giggz.service.mapper.ComedianMapper;
-import com.devok.giggz.service.ComedianService;
+import com.devok.giggz.service.service.ComedianService;
 import com.devok.giggz.service.model.Comedian;
 import com.devok.giggz.service.repository.ComedianRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -35,7 +35,9 @@ public class ComedianServiceImpl implements ComedianService {
 
     @Override
     public Page<ComedianDTO> findAll(Pageable pageable, ComediansFilter comediansFilter) {
-        Page<ComedianDTO> comedians = comedianRepository.findByFilters(comediansFilter.getName(), pageable).map(comedianMapper::toDto);
+        Page<ComedianDTO> comedians = comedianRepository
+                .findByFilters(comediansFilter.getName(), pageable)
+                .map(comedianMapper::toDto);
         logger.info("Fetching comedians with filters: {}", comediansFilter);
         return comedians;
     }

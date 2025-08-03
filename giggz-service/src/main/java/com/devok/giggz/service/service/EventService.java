@@ -1,4 +1,4 @@
-package com.devok.giggz.service;
+package com.devok.giggz.service.service;
 
 import java.time.OffsetDateTime;
 import java.util.List;

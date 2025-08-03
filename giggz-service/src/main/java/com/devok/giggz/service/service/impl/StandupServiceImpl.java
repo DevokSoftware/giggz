@@ -1,11 +1,11 @@
-package com.devok.giggz.service.impl;
+package com.devok.giggz.service.service.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.devok.giggz.service.ComedianService;
-import com.devok.giggz.service.StandupService;
+import com.devok.giggz.service.service.ComedianService;
+import com.devok.giggz.service.service.StandupService;
 import com.devok.giggz.service.dto.ComedianDTO;
 import com.devok.giggz.service.dto.standup.StandupDTO;
 import com.devok.giggz.service.dto.standup.StandupInputDTO;

@@ -1,10 +1,10 @@
-package com.devok.giggz.service.impl;
+package com.devok.giggz.service.service.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.devok.giggz.service.ContentService;
+import com.devok.giggz.service.service.ContentService;
 import com.devok.giggz.service.dto.NewsContentDTO;
 import com.devok.giggz.service.enums.ContentType;
 import com.devok.giggz.service.mapper.ContentMapper;

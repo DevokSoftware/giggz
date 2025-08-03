@@ -24,7 +24,7 @@ import com.devok.giggz.openapi.model.SignupRequest;
 import com.devok.giggz.openapi.model.TokenRefreshRequest;
 import com.devok.giggz.openapi.model.ValidateToken200Response;
 import com.devok.giggz.restapi.mapper.AuthMapper;
-import com.devok.giggz.service.UserService;
+import com.devok.giggz.service.service.UserService;
 import com.devok.giggz.service.dto.UserDTO;
 
 @RestController

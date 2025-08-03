@@ -23,7 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.devok.giggz.auth.jwt.TokenAuthenticationFilter;
-import com.devok.giggz.service.impl.UserServiceImpl;
+import com.devok.giggz.service.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration

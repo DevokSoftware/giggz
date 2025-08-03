@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.devok.giggz.auth.exception.OAuth2AuthenticationProcessingException;
-import com.devok.giggz.service.UserService;
+import com.devok.giggz.service.service.UserService;
 import com.devok.giggz.service.enums.AuthProvider;
 import com.devok.giggz.service.dto.UserDTO;
 import com.devok.giggz.service.auth.UserPrincipal;

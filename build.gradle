@@ -1,25 +1,24 @@
+//plugins {
+//    id 'java-platform'
+//}
+
 wrapper {
-	distributionType = Wrapper.DistributionType.ALL
+    distributionType = Wrapper.DistributionType.ALL
 }
 
 group 'com.devok'
 
-//allprojects {
-//	compileJava {
-//		sourceCompatibility = JavaVersion.VERSION_17
-//		targetCompatibility = JavaVersion.VERSION_17
-//	}
+
+//javaPlatform {
+//    allowDependencies()
 //}
 
-//subprojects {
-//	jar.enabled = true
-//}
-//
-//
-//springBoot {
-//	mainClass = 'com.devok.application.GiggzApplication'
-//}
-//
-//bootJar {
-//	getArchiveFileName().set('giggz.jar')
+//dependencies {
+//    constraints {
+//        api 'org.springframework.boot:spring-boot-starter-web'
+//        api 'org.springframework.boot:spring-boot-starter-security'
+//        api 'org.springframework.boot:spring-boot-starter-actuator'
+//        api 'org.springframework.boot:spring-boot-starter-oauth2-client:3.3.3'
+//        api 'org.springframework.boot:spring-boot-starter-test'
+//    }
 //}

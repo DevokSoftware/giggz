@@ -15,9 +15,9 @@ import com.devok.giggz.openapi.model.UserProfile;
 import com.devok.giggz.restapi.mapper.ComedianApiMapper;
 import com.devok.giggz.restapi.mapper.EventApiMapper;
 import com.devok.giggz.restapi.mapper.UserApiMapper;
-import com.devok.giggz.service.ComedianService;
-import com.devok.giggz.service.EventService;
-import com.devok.giggz.service.UserService;
+import com.devok.giggz.service.service.ComedianService;
+import com.devok.giggz.service.service.EventService;
+import com.devok.giggz.service.service.UserService;
 import com.devok.giggz.service.auth.UserPrincipal;
 
 @RestController

@@ -19,10 +19,10 @@ import com.devok.giggz.openapi.api.EventsApi;
 import com.devok.giggz.openapi.model.CreateEventRequest;
 import com.devok.giggz.openapi.model.EventResponse;
 import com.devok.giggz.openapi.model.UpdateEventRequest;
-import com.devok.giggz.service.UserService;
+import com.devok.giggz.service.service.UserService;
 import com.devok.giggz.service.auth.UserPrincipal;
 import com.devok.giggz.service.dto.event.EventDTO;
-import com.devok.giggz.service.EventService;
+import com.devok.giggz.service.service.EventService;
 
 @RestController
 public class EventController implements EventsApi {

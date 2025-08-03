@@ -6,8 +6,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import com.devok.giggz.service.dto.event.EventDTO;
-import com.devok.giggz.service.dto.event.UpdateEventDTO;
 import com.devok.giggz.service.dto.standup.StandupDTO;
 import com.devok.giggz.service.dto.standup.StandupInputDTO;
 import com.devok.giggz.service.model.Standup;

@@ -12,7 +12,7 @@ import com.devok.giggz.openapi.model.Location;
 import com.devok.giggz.openapi.model.LocationInput;
 import com.devok.giggz.openapi.model.LocationsGetFiltersParameter;
 import com.devok.giggz.restapi.mapper.LocationsApiMapper;
-import com.devok.giggz.service.LocationService;
+import com.devok.giggz.service.service.LocationService;
 import com.devok.giggz.service.dto.LocationDTO;
 
 @RestController

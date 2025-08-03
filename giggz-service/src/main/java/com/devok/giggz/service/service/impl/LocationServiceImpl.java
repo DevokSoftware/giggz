@@ -1,10 +1,10 @@
-package com.devok.giggz.service.impl;
+package com.devok.giggz.service.service.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.devok.giggz.service.LocationService;
+import com.devok.giggz.service.service.LocationService;
 import com.devok.giggz.service.dto.LocationDTO;
 import com.devok.giggz.service.filters.LocationsFilter;
 import com.devok.giggz.service.mapper.LocationMapper;

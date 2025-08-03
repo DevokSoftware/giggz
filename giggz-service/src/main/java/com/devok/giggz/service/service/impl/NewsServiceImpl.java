@@ -1,10 +1,10 @@
-package com.devok.giggz.service.impl;
+package com.devok.giggz.service.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.devok.giggz.service.ContentService;
-import com.devok.giggz.service.NewsService;
-import com.devok.giggz.service.StandupService;
+import com.devok.giggz.service.service.ContentService;
+import com.devok.giggz.service.service.NewsService;
+import com.devok.giggz.service.service.StandupService;
 import com.devok.giggz.service.dto.NewsDTO;
 
 @Service
