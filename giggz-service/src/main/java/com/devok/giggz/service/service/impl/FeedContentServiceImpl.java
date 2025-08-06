@@ -13,7 +13,8 @@ public class FeedContentServiceImpl implements FeedContentService {
     private final FeedContentRepository feedContentRepository;
     private final FeedContentMapper feedContentMapper;
 
-    public FeedContentServiceImpl(FeedContentRepository feedContentRepository,  FeedContentMapper feedContentMapper) {
+    public FeedContentServiceImpl(FeedContentRepository feedContentRepository,
+                                  FeedContentMapper feedContentMapper) {
         this.feedContentRepository = feedContentRepository;
         this.feedContentMapper = feedContentMapper;
     }
@@ -21,5 +22,10 @@ public class FeedContentServiceImpl implements FeedContentService {
     @Override
     public void saveAll(List<FeedContentDTO> feedContentDTOS) {
         feedContentRepository.saveAll(feedContentMapper.toFeedContentList(feedContentDTOS));
+    }
+
+    @Override
+    public boolean existsByUrl(String url) {
+        return feedContentRepository.existsByUrl(url);
     }
 }

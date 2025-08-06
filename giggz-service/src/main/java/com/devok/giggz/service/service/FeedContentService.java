@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface FeedContentService {
     void saveAll(List<FeedContentDTO> feedContentDTOS);
+    boolean existsByUrl(String url);
 }

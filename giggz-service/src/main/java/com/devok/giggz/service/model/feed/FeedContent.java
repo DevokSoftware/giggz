@@ -5,25 +5,32 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@Table(
+        indexes = {
+                @Index(name = "idx_feed_content_url", columnList = "url")
+        }
+)
 public class FeedContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String source;
+    private Integer source;
+    @Column(nullable = false, unique = true)
     private String url;
     private String thumbnailUrl;
     private String title;
     private String playlistId;
+    @Lob
     private String description;
     private Integer duration;
-    private LocalDateTime publishDate;
+    private OffsetDateTime publishDate;
     private Boolean visible = true;
 
     @ManyToOne
