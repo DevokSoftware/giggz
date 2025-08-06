@@ -12,4 +12,6 @@ public interface FeedContentMapper {
     FeedContent toFeedContent(FeedContentDTO feedContentDTO);
 
     List<FeedContent> toFeedContentList(List<FeedContentDTO> feedContentDTOList);
+
+    FeedContentDTO toDto(FeedContent feedContent);
 }

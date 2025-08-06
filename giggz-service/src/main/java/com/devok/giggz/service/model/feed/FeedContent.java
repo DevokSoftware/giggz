@@ -1,5 +1,6 @@
 package com.devok.giggz.service.model.feed;
 
+import com.devok.giggz.service.enums.SourceType;
 import com.devok.giggz.service.model.Comedian;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,7 +22,8 @@ public class FeedContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer source;
+    @Convert(converter = SourceType.Converter.class)
+    private SourceType source;
     @Column(nullable = false, unique = true)
     private String url;
     private String thumbnailUrl;

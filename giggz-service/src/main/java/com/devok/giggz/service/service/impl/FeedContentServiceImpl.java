@@ -4,6 +4,8 @@ import com.devok.giggz.service.dto.FeedContentDTO;
 import com.devok.giggz.service.mapper.feed.FeedContentMapper;
 import com.devok.giggz.service.repository.feed.FeedContentRepository;
 import com.devok.giggz.service.service.FeedContentService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,12 @@ public class FeedContentServiceImpl implements FeedContentService {
                                   FeedContentMapper feedContentMapper) {
         this.feedContentRepository = feedContentRepository;
         this.feedContentMapper = feedContentMapper;
+    }
+
+    @Override
+    public Page<FeedContentDTO> findAll(Pageable pageable) {
+        return feedContentRepository.findAllByOrderByPublishDateDesc(pageable)
+                .map(feedContentMapper::toDto);
     }
 
     @Override

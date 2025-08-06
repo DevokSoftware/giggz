@@ -792,6 +792,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /feed:
+    get:
+      tags:
+        - Feed
+      parameters:
+        - in: query
+          name: pageable
+          required: false
+          schema:
+            $ref: '#/components/schemas/Pageable'
+      responses:
+        200:
+          description: Get the feed with the last content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageFeedResponse'
 
 components:
   schemas:
@@ -911,6 +928,11 @@ components:
       enum:
         - SPOTIFY
         - PATREON
+        - YOUTUBE
+    SourceType:
+      type: string
+      enum:
+        - SPOTIFY
         - YOUTUBE
     PageEventResponse:
       title: PageEventResponse
@@ -1292,6 +1314,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/NewsContent'
+    PageFeedResponse:
+      title: PageFeedResponse
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedContentResponse'
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+    FeedContentResponse:
+      title: FeedContentResponse
+      required:
+        - source
+        - url
+        - thumbnailUrl
+        - title
+        - publishDate
+        - duration
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        source:
+          $ref: '#/components/schemas/SourceType'
+        url:
+          type: string
+        thumbnailUrl:
+          type: string
+        publishDate:
+          type: string
+          format: date-time
+        duration:
+          type: integer
   securitySchemes:
     bearerAuth:
       type: http
